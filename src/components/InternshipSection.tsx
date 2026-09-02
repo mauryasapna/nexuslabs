@@ -19,6 +19,8 @@ import {
   Send,
   ExternalLink,
   MessageCircle,
+  Mail,
+  MessageSquare,
 } from "lucide-react";
 import InstagramIcon from "./InstagramIcon";
 import confetti from "canvas-confetti";
