@@ -10,7 +10,6 @@ import CollegeProjectsSection from "@/components/CollegeProjectsSection";
 import InternshipSection from "@/components/InternshipSection";
 import AIWebDevSection from "@/components/AIWebDevSection";
 import DigitalMarketingSection from "@/components/DigitalMarketingSection";
-import AboutMeSection from "@/components/AboutMeSection";
 import VisionMissionSection from "@/components/VisionMissionSection";
 import ReviewsSection from "@/components/ReviewsSection";
 import DirectConnectModal from "@/components/DirectConnectModal";
@@ -158,7 +157,7 @@ export default function HomePage() {
         {/* 2. Business Website (Professional Website) */}
         <BusinessWebsiteSection onOpenConnect={handleOpenConnect} />
 
-        {/* 3. Learn How to Make an Website Easily with Me */}
+        {/* 3. Learn How to Build a Website Easily with Me */}
         <AIWebDevSection onOpenConnect={handleOpenConnect} />
 
         {/* 4. Google Rank with the Help of Digital Marketing */}
@@ -167,10 +166,7 @@ export default function HomePage() {
         {/* 5. Find Internship with Me */}
         <InternshipSection onOpenConnect={handleOpenConnect} />
 
-        {/* 🌟 About Me (Developer & Mentor Showcase) */}
-        <AboutMeSection onOpenConnect={handleOpenConnect} />
-
-        {/* 🌟 Vision & Mission of the Platform */}
+        {/* Vision & Mission of the Platform */}
         <VisionMissionSection />
 
         {/* Verified Student & Business Client Reviews */}

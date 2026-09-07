@@ -65,9 +65,9 @@ export default function HeroSection({
       ],
     },
     "learn-web": {
-      tag: "⚡ 3. Learn How to Make an Website Easily with Me",
+      tag: "⚡ 3. Learn How to Build a Website Easily with Me",
       tagColor: "bg-yellow-500/10 text-yellow-300 border-yellow-500/30",
-      title: "Learn How to Make an Website Easily with Me.",
+      title: "Learn How to Build a Website Easily with Me.",
       highlight: "1-on-1 Personalized Live Mentorship (Beginner to Pro).",
       subtitle: "No prior programming background required. Connect with me directly for hands-on, live screen-sharing mentorship in Delhi & online to master modern AI workflows, Next.js, and launch your own real websites easily.",
       ctaText: "Book 1-on-1 Web Mentorship",

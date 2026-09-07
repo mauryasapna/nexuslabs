@@ -200,7 +200,7 @@ export default function BusinessWebsiteSection({
                   className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium text-xs transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <PhoneCall className="w-3 h-3 text-emerald-400" />
-                  <span>WhatsApp Quote</span>
+                  <span>WhatsApp</span>
                 </button>
               </div>
             </div>

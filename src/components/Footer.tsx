@@ -21,7 +21,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import InstagramIcon from "./InstagramIcon";
+
 
 interface FooterProps {
   onReplayIntro: () => void;
@@ -29,7 +29,7 @@ interface FooterProps {
 }
 
 export default function Footer({ onReplayIntro, onOpenConnect }: FooterProps) {
-  const instagramUrl = "https://www.instagram.com/codineaura?igsh=dmV2N2R5bmVqZ2Ns";
+
 
   return (
     <footer className="relative bg-[#02050e] border-t border-white/10 pt-8 pb-8 overflow-hidden select-none">
@@ -38,32 +38,22 @@ export default function Footer({ onReplayIntro, onOpenConnect }: FooterProps) {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-6">
-        {/* 1. TOP NEWSLETTER, INSTAGRAM & DIRECT WHATSAPP CONNECT STRIP */}
+        {/* 1. TOP WHATSAPP CONNECT STRIP */}
         <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-purple-950/30 to-pink-950/40 border border-white/10 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="space-y-1.5 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-300 text-xs font-bold border border-pink-500/30">
-              <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
-              <span>Follow Us on Instagram @codineaura</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs font-bold border border-emerald-500/30">
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Connect with Us on WhatsApp</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-white font-outfit">
               Need a Custom Project, Internship, or Daily AI Tech Tips?
             </h3>
             <p className="text-xs sm:text-sm text-gray-300 font-light">
-              Connect directly with our senior mentors in Delhi on WhatsApp or DM us on Instagram for live updates.
+              Connect directly with our senior mentors on WhatsApp for live updates and support.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {/* Instagram Follow Button */}
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:from-purple-500 hover:to-rose-400 text-white font-bold text-xs shadow-lg shadow-pink-500/20 transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
-            >
-              <InstagramIcon className="w-4 h-4" />
-              <span>Follow @codineaura</span>
-            </a>
 
             {/* WhatsApp Call Button */}
             <button
@@ -115,17 +105,6 @@ export default function Footer({ onReplayIntro, onOpenConnect }: FooterProps) {
                 <PhoneCall className="w-4 h-4 text-cyan-400 shrink-0" />
                 <a href="https://wa.me/919142479986" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-300 transition-colors font-mono">
                   +91 91424 79986 (Direct WhatsApp)
-                </a>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <InstagramIcon className="w-4 h-4 text-pink-400 shrink-0" />
-                <a
-                  href={instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-pink-300 transition-colors font-mono"
-                >
-                  @codineaura (Official Instagram)
                 </a>
               </div>
             </div>
@@ -229,24 +208,13 @@ export default function Footer({ onReplayIntro, onOpenConnect }: FooterProps) {
             </h4>
             <ul className="space-y-2 text-xs text-gray-400">
               <li>
-                <a
-                  href={instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-pink-300 transition-colors flex items-center gap-1.5 text-pink-400 font-semibold"
-                >
-                  <InstagramIcon className="w-3.5 h-3.5" />
-                  <span>Instagram: @codineaura</span>
+                <a href="#reviews" className="hover:text-pink-300 transition-colors">
+                  Community Reviews
                 </a>
               </li>
               <li>
                 <a href="#reviews" className="hover:text-pink-300 transition-colors">
-                  Student Success Stories (350+)
-                </a>
-              </li>
-              <li>
-                <a href="#reviews" className="hover:text-pink-300 transition-colors">
-                  DTU, NSUT, IPU, DU Reviews
+                  Write a Review
                 </a>
               </li>
               <li>
@@ -274,15 +242,6 @@ export default function Footer({ onReplayIntro, onOpenConnect }: FooterProps) {
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-gray-400">
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-pink-400 hover:text-pink-300 transition-colors"
-            >
-              <InstagramIcon className="w-3.5 h-3.5" />
-              <span>@codineaura</span>
-            </a>
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
               100% Confidential Code

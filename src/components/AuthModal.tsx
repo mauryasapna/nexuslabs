@@ -108,26 +108,26 @@ export default function AuthModal({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto transition-all duration-700 animate-in fade-in zoom-in-95">
+    <div className="w-full max-w-sm sm:max-w-md mx-auto transition-all duration-700 animate-in fade-in zoom-in-95">
       {/* Glassmorphism Auth Card */}
-      <div className="relative glass-panel rounded-3xl p-8 md:p-9 shadow-2xl border border-white/10 overflow-hidden">
+      <div className="relative glass-panel rounded-2xl p-5 sm:p-6 shadow-2xl border border-white/10 overflow-hidden">
         {/* Ambient Top Light Beam */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-32 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 right-0 w-60 h-32 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Header with Consistent 3D Brand Logo */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="relative mb-3 group cursor-pointer transition-transform duration-300 hover:scale-105">
-            <BrandLogo size="md" glow={true} />
-            <span className="absolute -bottom-1 -right-1 px-1.5 py-0.5 text-[9px] font-bold tracking-widest bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 rounded-full uppercase">
+        <div className="flex flex-col items-center text-center mb-4">
+          <div className="relative mb-2 group cursor-pointer transition-transform duration-300 hover:scale-105">
+            <BrandLogo size="sm" glow={true} />
+            <span className="absolute -bottom-1 -right-1 px-1 py-0.2 text-[8px] font-bold tracking-widest bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 rounded-full uppercase">
               v2.6
             </span>
           </div>
 
-          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white font-outfit">
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white font-outfit">
             {isSignUp ? "Create Your Account" : "Welcome Back"}
           </h2>
-          <p className="text-xs md:text-sm text-gray-400 mt-1 font-light">
+          <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5 font-light">
             {isSignUp
               ? "Join the next-gen student project & mentorship hub"
               : "Login to continue to your interactive portal"}
@@ -135,36 +135,36 @@ export default function AuthModal({
         </div>
 
         {/* Role Selector Tabs (Student vs Professional) */}
-        <div className="bg-black/40 p-1 rounded-xl border border-white/5 flex items-center mb-5 relative">
+        <div className="bg-black/40 p-1 rounded-lg border border-white/5 flex items-center mb-3 relative">
           <button
             type="button"
             onClick={() => setRole("student")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md text-[11px] font-semibold transition-all duration-300 ${
               role === "student"
-                ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/20"
+                ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/20"
                 : "text-gray-400 hover:text-gray-200"
             }`}
           >
-            <GraduationCap className="w-4 h-4" />
+            <GraduationCap className="w-3.5 h-3.5" />
             <span>Student Portal</span>
           </button>
           <button
             type="button"
             onClick={() => setRole("professional")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all duration-300 ${
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md text-[11px] font-semibold transition-all duration-300 ${
               role === "professional"
-                ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/20"
+                ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/20"
                 : "text-gray-400 hover:text-gray-200"
             }`}
           >
-            <Briefcase className="w-4 h-4" />
+            <Briefcase className="w-3.5 h-3.5" />
             <span>Professional / Client</span>
           </button>
         </div>
 
         {/* Role Helper Info Pill */}
-        <div className="mb-5 p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-[11px] text-gray-300 flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+        <div className="mb-3 p-2 rounded-lg bg-white/[0.03] border border-white/5 text-[10px] text-gray-300 flex items-center gap-1.5">
+          <Sparkles className="w-3 h-3 text-cyan-400 shrink-0" />
           {role === "student" ? (
             <span>
               <strong>Student:</strong> Request College Projects, Apply for Internships, AI Web Builder.
@@ -178,16 +178,16 @@ export default function AuthModal({
 
         {/* Form Error */}
         {error && (
-          <div className="mb-4 p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-xs text-center">
+          <div className="mb-3 p-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300 text-[11px] text-center">
             {error}
           </div>
         )}
 
         {/* Login / Sign Up Form */}
-        <form onSubmit={handleAuthSubmit} className="space-y-4">
+        <form onSubmit={handleAuthSubmit} className="space-y-2.5">
           {isSignUp && (
             <div>
-              <label className="block text-xs font-medium text-gray-300 mb-1.5">
+              <label className="block text-[11px] font-medium text-gray-300 mb-1">
                 Full Name
               </label>
               <div className="relative">
@@ -197,15 +197,15 @@ export default function AuthModal({
                   placeholder="e.g. Aarav Sharma"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-input text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
+                  className="w-full pl-9 pr-3 py-2 rounded-lg glass-input text-xs placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
                 />
-                <Sparkles className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+                <Sparkles className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-medium text-gray-300 mb-1.5">
+            <label className="block text-[11px] font-medium text-gray-300 mb-1">
               Email Address
             </label>
             <div className="relative">
@@ -215,22 +215,22 @@ export default function AuthModal({
                 placeholder="name@university.edu or you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl glass-input text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
+                className="w-full pl-9 pr-3 py-2 rounded-lg glass-input text-xs placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
               />
-              <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <Mail className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" />
             </div>
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-medium text-gray-300">
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-[11px] font-medium text-gray-300">
                 Password
               </label>
               {!isSignUp && (
                 <button
                   type="button"
                   onClick={() => setShowForgotModal(true)}
-                  className="text-[11px] text-cyan-400 hover:text-cyan-300 hover:underline transition-colors"
+                  className="text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline transition-colors"
                 >
                   Forgot Password?
                 </button>
@@ -243,18 +243,18 @@ export default function AuthModal({
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-2.5 rounded-xl glass-input text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
+                className="w-full pl-9 pr-9 py-2 rounded-lg glass-input text-xs placeholder:text-gray-500 focus:ring-1 focus:ring-cyan-400"
               />
-              <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <Lock className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-200"
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-200"
               >
                 {showPassword ? (
-                  <EyeOff className="w-4 h-4" />
+                  <EyeOff className="w-3.5 h-3.5" />
                 ) : (
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-3.5 h-3.5" />
                 )}
               </button>
             </div>
@@ -264,18 +264,18 @@ export default function AuthModal({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full mt-2 relative group overflow-hidden py-3 px-4 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:via-blue-500 hover:to-purple-500 shadow-lg shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
+            className="w-full mt-1.5 relative group overflow-hidden py-2.5 px-4 rounded-lg font-semibold text-xs text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:via-blue-500 hover:to-purple-500 shadow-md shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98]"
           >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="relative z-10 flex items-center gap-1.5">
               {isLoading ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   <span>Authenticating...</span>
                 </>
               ) : (
                 <>
                   <span>{isSignUp ? "Complete Sign Up" : "Login"}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
             </span>
@@ -284,7 +284,7 @@ export default function AuthModal({
         </form>
 
         {/* Toggle between Login and Sign Up */}
-        <div className="mt-5 text-center text-xs text-gray-400">
+        <div className="mt-3.5 text-center text-[11px] text-gray-400">
           {isSignUp ? (
             <span>
               Already have an account?{" "}
@@ -317,11 +317,11 @@ export default function AuthModal({
         </div>
 
         {/* Quick Demo & Instant Preview divider */}
-        <div className="relative my-5">
+        <div className="relative my-3.5">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-white/10"></div>
           </div>
-          <div className="relative flex justify-center text-[10px] uppercase">
+          <div className="relative flex justify-center text-[9px] uppercase">
             <span className="bg-[#0b1022] px-2 text-gray-500 tracking-wider">
               Instant 1-Click Access
             </span>
@@ -329,32 +329,32 @@ export default function AuthModal({
         </div>
 
         {/* Quick Demo Buttons */}
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
             onClick={() => handleQuickDemo("student")}
-            className="py-2 px-3 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-800/40 text-cyan-300 text-xs font-medium transition-all hover:border-cyan-500/60 flex items-center justify-center gap-1.5"
+            className="py-1.5 px-2.5 rounded-lg bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-800/40 text-cyan-300 text-[11px] font-medium transition-all hover:border-cyan-500/60 flex items-center justify-center gap-1"
           >
-            <GraduationCap className="w-3.5 h-3.5" />
+            <GraduationCap className="w-3 h-3" />
             <span>Demo Student</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleQuickDemo("professional")}
-            className="py-2 px-3 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/40 text-purple-300 text-xs font-medium transition-all hover:border-purple-500/60 flex items-center justify-center gap-1.5"
+            className="py-1.5 px-2.5 rounded-lg bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/40 text-purple-300 text-[11px] font-medium transition-all hover:border-purple-500/60 flex items-center justify-center gap-1"
           >
-            <Briefcase className="w-3.5 h-3.5" />
+            <Briefcase className="w-3 h-3" />
             <span>Demo Mentor</span>
           </button>
         </div>
 
         {/* Direct Guest Explore */}
-        <div className="mt-3 text-center">
+        <div className="mt-2.5 text-center">
           <button
             type="button"
             onClick={onExploreDirectly}
-            className="text-[11px] text-gray-400 hover:text-gray-200 transition-colors underline underline-offset-4"
+            className="text-[10px] text-gray-400 hover:text-gray-200 transition-colors underline underline-offset-4"
           >
             Continue as Guest & Explore All Features →
           </button>

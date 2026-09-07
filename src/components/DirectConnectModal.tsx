@@ -15,7 +15,6 @@ import {
   MapPin,
   Clock,
 } from "lucide-react";
-import InstagramIcon from "./InstagramIcon";
 import confetti from "canvas-confetti";
 import { saveDirectInquiry } from "@/lib/storage";
 import { toast } from "@/components/ui/sonner";
@@ -38,14 +37,14 @@ export default function DirectConnectModal({
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const instagramUrl = "https://www.instagram.com/codineaura?igsh=dmV2N2R5bmVqZ2Ns";
+
 
   if (!isOpen) return null;
 
   const topics = [
     "College Projects (1st, 2nd, 3rd & Final Year)",
     "Business Website (Professional Website)",
-    "Learn How to Make an Website Easily with Me",
+    "Learn How to Build a Website Easily with Me",
     "Google Rank with Digital Marketing",
     "Find Internship with Me",
   ];
@@ -120,142 +119,47 @@ export default function DirectConnectModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 animate-in fade-in overflow-y-auto">
-      <div className="glass-panel w-full max-w-xl rounded-3xl p-5 sm:p-7 border border-white/15 relative shadow-2xl overflow-hidden my-auto">
+      <div className="glass-panel w-full max-w-md rounded-2xl p-4 sm:p-5 border border-white/15 relative shadow-2xl overflow-hidden my-auto">
         {/* Ambient background glows */}
-        <div className="absolute -top-20 -right-20 w-52 h-52 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-52 h-52 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
 
         {/* Modal Header */}
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 text-[10px] font-bold uppercase tracking-wider mb-1">
-              <Sparkles className="w-3 h-3 text-cyan-400" />
-              <span>Direct Mentorship & Project Desk</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black text-white font-outfit">
-              Connect With Me Directly
+        <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10 mb-3">
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <h3 className="text-base font-bold text-white font-outfit">
+              Connect Directly
             </h3>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
-        </div>
-
-        {/* Real Contact Details Box */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-3 rounded-2xl bg-black/60 border border-white/10 text-xs mb-4">
-          <div className="flex items-center gap-2 text-gray-300">
-            <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-            <div className="min-w-0">
-              <p className="text-[9px] text-gray-400">Official Email</p>
-              <a
-                href="mailto:nexuslab27@gmail.com"
-                className="font-bold text-white hover:text-amber-300 text-[10px] truncate block"
-                title="nexuslab27@gmail.com"
-              >
-                nexuslab27@gmail.com
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-gray-300">
-            <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-            <div>
-              <p className="text-[9px] text-gray-400">WhatsApp</p>
-              <a href="https://wa.me/919142479986" target="_blank" rel="noopener noreferrer" className="font-bold text-white hover:text-emerald-300 text-[10px]">
-                +91 91424 79986
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-gray-300">
-            <InstagramIcon className="w-4 h-4 text-pink-400 shrink-0" />
-            <div>
-              <p className="text-[9px] text-gray-400">Instagram</p>
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold text-pink-300 hover:text-pink-200 text-[10px] truncate block max-w-[90px]"
-              >
-                @codineaura
-              </a>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-gray-300">
-            <PhoneCall className="w-4 h-4 text-cyan-400 shrink-0" />
-            <div>
-              <p className="text-[9px] text-gray-400">Direct Call</p>
-              <a href="tel:+919142479986" className="font-bold text-white hover:text-cyan-300 text-[10px]">
-                +91 91424 79986
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Connect Fast Action Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
-          <button
-            onClick={handleOpenWhatsApp}
-            className="p-2.5 rounded-xl bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-          >
-            <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>WhatsApp</span>
-            <ExternalLink className="w-3 h-3 opacity-60" />
-          </button>
-
-          <button
-            onClick={handleOpenEmail}
-            className="p-2.5 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 text-amber-300 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-          >
-            <Mail className="w-4 h-4 text-amber-400" />
-            <span>Email Us</span>
-            <ExternalLink className="w-3 h-3 opacity-60" />
-          </button>
-
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2.5 rounded-xl bg-pink-950/50 hover:bg-pink-900/60 border border-pink-500/30 text-pink-300 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-          >
-            <InstagramIcon className="w-4 h-4 text-pink-400" />
-            <span>Instagram</span>
-            <ExternalLink className="w-3 h-3 opacity-60" />
-          </a>
         </div>
 
         {sent ? (
-          <div className="py-6 text-center space-y-3 animate-in fade-in">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
-              <CheckCircle2 className="w-7 h-7" />
+          <div className="py-5 text-center space-y-2.5 animate-in fade-in">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
-            <h4 className="text-base sm:text-lg font-bold text-white font-outfit">
-              Form Submitted Successfully!
+            <h4 className="text-sm font-bold text-white font-outfit">
+              Inquiry Sent Successfully!
             </h4>
-            <p className="text-xs text-gray-300 max-w-sm mx-auto leading-relaxed">
-              Thank you <strong>{name}</strong>! Your inquiry for <strong>&quot;{selectedTopic}&quot;</strong> has been saved. You can also send this inquiry directly to <strong>nexuslab27@gmail.com</strong> or WhatsApp.
+            <p className="text-xs text-gray-300 max-w-xs mx-auto leading-relaxed">
+              Thank you <strong>{name}</strong>! We will reach out to you directly via WhatsApp.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <button
-                onClick={handleOpenEmail}
-                className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-600/20 flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Send to nexuslab27@gmail.com</span>
-              </button>
-
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
               <button
                 onClick={handleOpenWhatsApp}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+                className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5 cursor-pointer"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>Send on WhatsApp</span>
+                <span>WhatsApp</span>
               </button>
 
               <button
@@ -263,22 +167,22 @@ export default function DirectConnectModal({
                   setSent(false);
                   onClose();
                 }}
-                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-gray-300 text-xs font-semibold cursor-pointer transition-colors"
+                className="px-3.5 py-1.5 rounded-xl bg-white/10 text-gray-300 text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-2.5">
             <div>
-              <label className="block text-xs font-semibold text-gray-300 mb-1">
-                What would you like to connect regarding?
+              <label className="block text-[11px] font-semibold text-gray-300 mb-1">
+                Topic / Requirement
               </label>
               <select
                 value={selectedTopic}
                 onChange={(e) => setSelectedTopic(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl glass-input text-xs bg-[#0b1022]"
+                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-[#0b1022]"
               >
                 {topics.map((t) => (
                   <option key={t} value={t}>
@@ -288,24 +192,24 @@ export default function DirectConnectModal({
               </select>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1">
+                <label className="block text-[11px] font-semibold text-gray-300 mb-1">
                   Your Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Rohan Sharma"
+                  placeholder="e.g. Rohan"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl glass-input text-xs"
+                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-300 mb-1">
-                  Direct WhatsApp / Mobile Number *
+                <label className="block text-[11px] font-semibold text-gray-300 mb-1">
+                  WhatsApp / Phone *
                 </label>
                 <input
                   type="text"
@@ -313,25 +217,25 @@ export default function DirectConnectModal({
                   placeholder="e.g. +91 9142479986"
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl glass-input text-xs"
+                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-300 mb-1">
-                Project / Service Requirement
+              <label className="block text-[11px] font-semibold text-gray-300 mb-1">
+                Message (Optional)
               </label>
               <textarea
                 rows={2}
-                placeholder="Share your topic, deadline, or requirements..."
+                placeholder="Briefly describe your requirements..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl glass-input text-xs"
+                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
               />
             </div>
 
-            <div className="flex gap-2 pt-1">
+            <div className="flex gap-2 pt-1.5 border-t border-white/10">
               <button
                 type="button"
                 onClick={onClose}
@@ -342,14 +246,14 @@ export default function DirectConnectModal({
               <button
                 type="submit"
                 disabled={isSending}
-                className="flex-1 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 cursor-pointer"
+                className="flex-1 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-md shadow-cyan-500/20 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 {isSending ? (
-                  "Connecting..."
+                  "Sending..."
                 ) : (
                   <>
                     <PhoneCall className="w-3.5 h-3.5" />
-                    <span>Connect Directly</span>
+                    <span>Connect</span>
                   </>
                 )}
               </button>

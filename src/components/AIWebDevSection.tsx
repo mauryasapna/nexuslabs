@@ -68,11 +68,11 @@ export default function AIWebDevSection({
       <div className="text-center max-w-3xl mx-auto mb-6 space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs font-semibold uppercase tracking-wider shadow-sm">
           <Zap className="w-3.5 h-3.5 text-yellow-400" />
-          <span>Learn How to Make an Website Easily with Me</span>
+          <span>Learn How to Build a Website Easily with Me</span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight font-outfit">
-          Learn How to Make an Website{" "}
+          Learn How to Build a Website{" "}
           <span className="gradient-text-yellow-amber">
             Easily with Me.
           </span>
@@ -126,10 +126,10 @@ export default function AIWebDevSection({
 
             <div className="flex flex-wrap items-center gap-3">
               <button
-                onClick={() => onOpenConnect("Learn How to Make an Website Easily with Me")}
+                onClick={() => onOpenConnect("Learn How to Build a Website Easily with Me")}
                 className="px-6 py-3 rounded-xl bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black font-extrabold text-xs sm:text-sm shadow-xl shadow-yellow-500/20 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
               >
-                <span>Book 1-on-1 Mentorship</span>
+                <span>Start Building with Me</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 

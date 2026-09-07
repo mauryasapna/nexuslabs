@@ -71,7 +71,7 @@ export default function HomeTopSlidebar({
     },
     {
       id: "learn-web-dev",
-      title: "Learn How to Make an Website Easily with Me",
+      title: "Learn How to Build a Website Easily with Me",
       subtitle: "Join Hands-on 1-on-1 Mentorship in Delhi & Online. Zero Coding Knowledge Needed — Master Modern AI Workflows and Deploy Real Websites in Just 1 Week.",
       badge: "⚡ 1-on-1 Personal Mentorship",
       badgeColor: "bg-yellow-500/20 text-yellow-300 border-yellow-500/40",
@@ -84,7 +84,7 @@ export default function HomeTopSlidebar({
       image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=90",
       icon: Zap,
       accentBorder: "border-yellow-500/50 shadow-[0_0_50px_rgba(234,179,8,0.3)]",
-      ctaText: "Book 1-on-1 Mentorship",
+      ctaText: "Start Building with Me",
       ctaColor: "from-yellow-500 via-amber-600 to-orange-600 hover:from-yellow-400 hover:to-orange-500",
       href: "#learn-web-dev",
     },

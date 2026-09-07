@@ -13,7 +13,6 @@ import {
   Sparkles,
   ArrowRight,
 } from "lucide-react";
-import InstagramIcon from "./InstagramIcon";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -28,7 +27,6 @@ export default function Sidebar({
   onOpenConnect,
 }: SidebarProps) {
   const [activeItem, setActiveItem] = useState("projects");
-  const instagramUrl = "https://www.instagram.com/codineaura?igsh=dmV2N2R5bmVqZ2Ns";
 
   // Exactly the 5 Core Ways We Help Clients & Students
   const coreHelpServices = [
@@ -193,16 +191,6 @@ export default function Sidebar({
             <PhoneCall className="w-4 h-4" />
             <span>Direct Contact with Sapna</span>
           </button>
-
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-xl bg-pink-950/40 hover:bg-pink-900/50 border border-pink-500/30 text-pink-300 font-bold text-[11px] transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <InstagramIcon className="w-3.5 h-3.5 text-pink-400" />
-            <span>Follow @codineaura on Instagram</span>
-          </a>
         </div>
       </aside>
     </>
