@@ -17,6 +17,7 @@ import {
   Sliders,
   ShieldCheck,
   Flame,
+  MessageCircle,
 } from "lucide-react";
 import { sendToWhatsApp } from "@/lib/whatsapp";
 
