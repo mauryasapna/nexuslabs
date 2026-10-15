@@ -1,5 +1,5 @@
 /**
- * NEXUSLABS Local Storage Database Engine
+ * MAVERICK TECH Local Storage Database Engine
  * Persists all backend inquiries, project orders, internship applications, and user accounts.
  */
 
@@ -67,20 +67,38 @@ export interface StoredReview {
 }
 
 const KEYS = {
-  PROJECT_ORDERS: "nexus_project_orders",
-  INTERNSHIP_APPLICATIONS: "nexus_internship_apps",
-  CUSTOM_INTERNSHIPS: "nexus_custom_internships",
-  DIRECT_INQUIRIES: "nexus_direct_inquiries",
-  USER_SESSION: "nexus_user_session",
-  USER_ACCOUNTS: "nexus_registered_users",
-  REVIEWS: "nexus_user_reviews",
+  PROJECT_ORDERS: "maverick_project_orders",
+  INTERNSHIP_APPLICATIONS: "maverick_internship_apps",
+  CUSTOM_INTERNSHIPS: "maverick_custom_internships",
+  DIRECT_INQUIRIES: "maverick_direct_inquiries",
+  USER_SESSION: "maverick_user_session",
+  USER_ACCOUNTS: "maverick_registered_users",
+  REVIEWS: "maverick_user_reviews",
 };
 
-// Safe helper to read from LocalStorage
+const LEGACY_KEYS: Record<string, string> = {
+  [KEYS.PROJECT_ORDERS]: "nexus_project_orders",
+  [KEYS.INTERNSHIP_APPLICATIONS]: "nexus_internship_apps",
+  [KEYS.CUSTOM_INTERNSHIPS]: "nexus_custom_internships",
+  [KEYS.DIRECT_INQUIRIES]: "nexus_direct_inquiries",
+  [KEYS.USER_SESSION]: "nexus_user_session",
+  [KEYS.USER_ACCOUNTS]: "nexus_registered_users",
+  [KEYS.REVIEWS]: "nexus_user_reviews",
+};
+
+// Safe helper to read from LocalStorage with legacy migration
 function getArray<T>(key: string): T[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(key);
+    let raw = localStorage.getItem(key);
+    if (!raw && LEGACY_KEYS[key]) {
+      const legacyRaw = localStorage.getItem(LEGACY_KEYS[key]);
+      if (legacyRaw) {
+        raw = legacyRaw;
+        // Migrate to new key
+        localStorage.setItem(key, legacyRaw);
+      }
+    }
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
     console.error(`Error reading ${key} from localStorage:`, e);
@@ -179,7 +197,10 @@ export function saveUserSession(user: StoredUserSession | null): void {
 export function getUserSession(): StoredUserSession | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem(KEYS.USER_SESSION);
+    let raw = localStorage.getItem(KEYS.USER_SESSION);
+    if (!raw && LEGACY_KEYS[KEYS.USER_SESSION]) {
+      raw = localStorage.getItem(LEGACY_KEYS[KEYS.USER_SESSION]);
+    }
     return raw ? JSON.parse(raw) : null;
   } catch (e) {
     return null;

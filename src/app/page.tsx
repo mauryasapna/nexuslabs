@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -5,6 +6,7 @@ import CinematicIntroFlow from "@/components/CinematicIntroFlow";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import HomeTopSlidebar from "@/components/HomeTopSlidebar";
+import AboutMeSection from "@/components/AboutMeSection";
 import BusinessWebsiteSection from "@/components/BusinessWebsiteSection";
 import CollegeProjectsSection from "@/components/CollegeProjectsSection";
 import InternshipSection from "@/components/InternshipSection";
@@ -91,7 +93,7 @@ export default function HomePage() {
     } else {
       const newUser = {
         name: newRole === "student" ? "Aarav Sharma (Student)" : "Dr. Vikram Seth (Professional)",
-        email: newRole === "student" ? "student@nexus.ai" : "mentor@nexus.ai",
+        email: newRole === "student" ? "student@mavericktech.io" : "mentor@mavericktech.io",
         role: newRole,
       };
       setUser(newUser);
@@ -120,7 +122,7 @@ export default function HomePage() {
   }
 
   return (
-    <div id="home" className="min-h-screen bg-[#030712] text-gray-100 flex flex-col relative selection:bg-cyan-500/30 selection:text-cyan-200 pb-16 lg:pb-0 overflow-x-hidden w-full">
+    <div id="home" className="min-h-screen bg-black text-gray-100 flex flex-col relative selection:bg-white/20 selection:text-white pb-16 lg:pb-0 overflow-x-hidden w-full">
       {/* Background ambient lighting pattern */}
       <div className="fixed inset-0 bg-grid-pattern opacity-20 pointer-events-none -z-10" />
 
@@ -145,11 +147,14 @@ export default function HomePage() {
 
       {/* Main Full-Width Content Area */}
       <main className="w-full flex-1 px-2 sm:px-4 lg:px-8 py-2 overflow-x-hidden transition-all">
-        {/* 🌟 UNIFIED EXPANSIVE AUTO-SLIDING HIGHLIGHTS */}
+        {/* Expansive Highlights Slider */}
         <HomeTopSlidebar
           onOpenConnect={handleOpenConnect}
           onReplayIntro={handleReplayIntro}
         />
+
+        {/* Meet Sapna: IT Developer @ ELEKTRO LABS, CGPA 9.1 & Mailflow Showcase */}
+        <AboutMeSection onOpenConnect={handleOpenConnect} />
 
         {/* 1. College Projects (1st, 2nd, 3rd, Final Year) */}
         <CollegeProjectsSection onOpenConnect={handleOpenConnect} />
@@ -200,7 +205,7 @@ export default function HomePage() {
               onClick={() => setShowAuthModal(false)}
               className="absolute -top-12 right-0 text-gray-400 hover:text-white p-2 rounded-full bg-white/5 border border-white/10 text-xs flex items-center gap-1 cursor-pointer"
             >
-              <span>Close ✕</span>
+              <span>Close</span>
             </button>
             <AuthModal
               onLoginSuccess={handleAuthenticated}

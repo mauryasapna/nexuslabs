@@ -17,10 +17,10 @@ export default function BrandLogo({
 }: BrandLogoProps) {
   const sizeMap = {
     sm: "w-8 h-8",
-    md: "w-12 h-12",
-    lg: "w-20 h-20",
-    xl: "w-32 h-32",
-    hero: "w-44 h-44 md:w-56 md:h-56",
+    md: "w-11 h-11",
+    lg: "w-18 h-18",
+    xl: "w-28 h-28",
+    hero: "w-40 h-40 md:w-52 md:h-52",
   };
 
   return (
@@ -29,130 +29,117 @@ export default function BrandLogo({
         animated ? "animate-float" : ""
       }`}
     >
-      {/* Ambient background glow */}
+      {/* Subtle Monochrome Ambient glow */}
       {glow && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/40 via-purple-600/30 to-blue-500/40 rounded-full blur-2xl -z-10 animate-pulse-glow" />
+        <div className="absolute inset-0 bg-white/[0.08] rounded-full blur-xl -z-10 animate-pulse-glow" />
       )}
 
-      {/* SVG Emblem with 3D layers, gradients and reflections */}
+      {/* Maverick "M" Futuristic Platinum / Chrome Emblem */}
       <svg
         viewBox="0 0 200 200"
-        className="w-full h-full drop-shadow-[0_10px_30px_rgba(6,182,212,0.4)]"
+        className="w-full h-full drop-shadow-[0_8px_24px_rgba(255,255,255,0.15)]"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Gradients */}
-          <linearGradient id="nexusGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38bdf8" />
-            <stop offset="50%" stopColor="#818cf8" />
-            <stop offset="100%" stopColor="#c084fc" />
+          {/* Platinum / Chrome Gradients */}
+          <linearGradient id="chromeLight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="50%" stopColor="#d4d4d8" />
+            <stop offset="100%" stopColor="#71717a" />
           </linearGradient>
 
-          <linearGradient id="nexusGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#06b6d4" />
-            <stop offset="100%" stopColor="#9333ea" />
+          <linearGradient id="chromeDark" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#27272a" />
+            <stop offset="60%" stopColor="#52525b" />
+            <stop offset="100%" stopColor="#a1a1aa" />
           </linearGradient>
 
-          <linearGradient id="metalReflection" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#ffffff" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0.4" />
+          <linearGradient id="mirrorSheen" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+            <stop offset="45%" stopColor="#ffffff" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.6" />
           </linearGradient>
 
-          <filter id="coreGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
+          <filter id="monoGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
-
-          <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.9" />
-            <stop offset="70%" stopColor="#a855f7" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
         </defs>
 
-        {/* Outer Orbital Ring 1 */}
-        <ellipse
-          cx="100"
-          cy="100"
-          rx="82"
-          ry="36"
-          transform="rotate(-25 100 100)"
-          stroke="url(#nexusGradient1)"
-          strokeWidth="2.5"
-          strokeDasharray="16 8 4 8"
-          strokeOpacity="0.75"
+        {/* Outer Hexagonal Shield Ring */}
+        <polygon
+          points="100,14 176,56 176,144 100,186 24,144 24,56"
+          stroke="url(#chromeLight)"
+          strokeWidth="2"
+          strokeOpacity="0.4"
+          strokeDasharray="18 6"
         />
 
-        {/* Outer Orbital Ring 2 (Crossed) */}
-        <ellipse
-          cx="100"
-          cy="100"
-          rx="82"
-          ry="36"
-          transform="rotate(35 100 100)"
-          stroke="url(#nexusGradient2)"
-          strokeWidth="1.8"
-          strokeDasharray="24 10"
-          strokeOpacity="0.5"
+        {/* Inner Subtle Accent Hexagon */}
+        <polygon
+          points="100,24 166,62 166,138 100,176 34,138 34,62"
+          stroke="#ffffff"
+          strokeWidth="1"
+          strokeOpacity="0.15"
         />
 
-        {/* Futuristic 3D Hexagon-Diamond Core Shell */}
-        {/* Top Facet */}
+        {/* --- Iconic Geometric "M" (Maverick) Wings --- */}
+        {/* Left Wing Outer Pillar */}
         <polygon
-          points="100,25 155,60 100,95 45,60"
-          fill="url(#nexusGradient1)"
-          fillOpacity="0.9"
-          filter="url(#coreGlow)"
+          points="40,150 40,65 68,50 68,135"
+          fill="url(#chromeDark)"
         />
         <polygon
-          points="100,25 155,60 100,95 45,60"
-          fill="url(#metalReflection)"
-          fillOpacity="0.35"
-        />
-
-        {/* Bottom Left Facet */}
-        <polygon
-          points="45,60 100,95 100,165 45,130"
-          fill="url(#nexusGradient2)"
-          fillOpacity="0.85"
-        />
-        <polygon
-          points="45,60 100,95 100,165 45,130"
-          fill="black"
-          fillOpacity="0.25"
-        />
-
-        {/* Bottom Right Facet */}
-        <polygon
-          points="155,60 100,95 100,165 155,130"
-          fill="url(#nexusGradient1)"
-          fillOpacity="0.95"
-        />
-        <polygon
-          points="155,60 100,95 100,165 155,130"
-          fill="url(#metalReflection)"
+          points="40,150 40,65 68,50 68,135"
+          fill="url(#mirrorSheen)"
           fillOpacity="0.2"
         />
 
-        {/* Inner Floating Quantum Prism (The "N" / Geometric Singularity) */}
+        {/* Left Diagonal Chevron Inward */}
         <polygon
-          points="100,55 130,75 100,135 70,115"
-          fill="#ffffff"
-          fillOpacity="0.25"
+          points="68,50 100,105 100,135 68,78"
+          fill="url(#chromeLight)"
+          filter="url(#monoGlow)"
         />
 
-        {/* Futuristic Glowing Neon Ridge Lines */}
-        <line x1="100" y1="25" x2="100" y2="165" stroke="#ffffff" strokeWidth="2.5" strokeOpacity="0.9" />
-        <line x1="45" y1="60" x2="155" y2="60" stroke="#38bdf8" strokeWidth="2" strokeOpacity="0.8" />
-        <line x1="45" y1="60" x2="100" y2="95" stroke="#a855f7" strokeWidth="2" strokeOpacity="0.8" />
-        <line x1="155" y1="60" x2="100" y2="95" stroke="#38bdf8" strokeWidth="2" strokeOpacity="0.8" />
+        {/* Right Diagonal Chevron Inward */}
+        <polygon
+          points="132,50 100,105 100,135 132,78"
+          fill="url(#chromeLight)"
+          filter="url(#monoGlow)"
+        />
 
-        {/* Orbiting Quantum Photons / Energy Dots */}
-        <circle cx="28" cy="85" r="4.5" fill="#38bdf8" filter="url(#coreGlow)" />
-        <circle cx="172" cy="115" r="4.5" fill="#c084fc" filter="url(#coreGlow)" />
-        <circle cx="100" cy="95" r="5" fill="#ffffff" filter="url(#coreGlow)" />
+        {/* Right Wing Outer Pillar */}
+        <polygon
+          points="160,150 160,65 132,50 132,135"
+          fill="url(#chromeDark)"
+        />
+        <polygon
+          points="160,150 160,65 132,50 132,135"
+          fill="url(#mirrorSheen)"
+          fillOpacity="0.2"
+        />
+
+        {/* Central Floating Diamond / Prism Apex */}
+        <polygon
+          points="100,38 116,62 100,86 84,62"
+          fill="#ffffff"
+          fillOpacity="0.9"
+          filter="url(#monoGlow)"
+        />
+
+        {/* High-Precision Bevel Edge Lines */}
+        <line x1="40" y1="65" x2="68" y2="50" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.9" />
+        <line x1="160" y1="65" x2="132" y2="50" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.9" />
+        <line x1="68" y1="50" x2="100" y2="105" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.9" />
+        <line x1="132" y1="50" x2="100" y2="105" stroke="#ffffff" strokeWidth="2" strokeOpacity="0.9" />
+        <line x1="100" y1="86" x2="100" y2="155" stroke="#ffffff" strokeWidth="1.5" strokeOpacity="0.4" strokeDasharray="4 4" />
+
+        {/* Quantum Light Spheres */}
+        <circle cx="100" cy="62" r="3" fill="#ffffff" filter="url(#monoGlow)" />
+        <circle cx="40" cy="150" r="2.5" fill="#d4d4d8" />
+        <circle cx="160" cy="150" r="2.5" fill="#d4d4d8" />
       </svg>
     </div>
   );

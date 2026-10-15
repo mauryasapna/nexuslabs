@@ -41,10 +41,10 @@ export default function CinematicIntroFlow({
   }, [stage]);
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-between py-6 px-4 bg-[#030712] overflow-hidden select-none">
-      {/* Deep Space Ambient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(6,182,212,0.2),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.15),transparent_60%)] pointer-events-none" />
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-between py-6 px-4 bg-black overflow-hidden select-none">
+      {/* Deep Space Monochrome Ambient */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.06),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.04),transparent_60%)] pointer-events-none" />
 
       {/* Fast 3D WebGL Canvas */}
       <ThreeDLogoCanvas
@@ -58,7 +58,7 @@ export default function CinematicIntroFlow({
         {stage < 3 ? (
           <button
             onClick={() => setStage(3)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs shadow-xl shadow-cyan-500/30 transition-all hover:scale-105 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white hover:bg-zinc-200 text-black font-extrabold text-xs shadow-xl shadow-white/10 transition-all hover:scale-105 cursor-pointer"
           >
             <FastForward className="w-4 h-4" />
             <span>Skip to Login</span>
@@ -68,18 +68,21 @@ export default function CinematicIntroFlow({
             onClick={() => setStage(1)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-bold text-white backdrop-blur-md transition-all hover:scale-105 cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4 text-cyan-400" />
+            <RotateCcw className="w-4 h-4 text-white" />
             <span>Replay 3D Intro</span>
           </button>
         )}
       </div>
 
-      {/* 🌟 ONLY THE GRAND WEBSITE NAME */}
+      {/* 🌟 MAVERICK TECH - GRAND BRAND DISPLAY */}
       {stage < 3 && (
         <div className="relative z-30 text-center pointer-events-none animate-in fade-in duration-300 my-auto">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-outfit tracking-tight text-white drop-shadow-[0_0_50px_rgba(6,182,212,0.6)]">
-            NEXUS<span className="text-cyan-400">LABS</span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black font-outfit tracking-tight text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.25)]">
+            MAVERICK <span className="text-zinc-400">TECH</span>
           </h1>
+          <p className="mt-2 text-xs sm:text-sm font-medium tracking-widest uppercase text-zinc-400">
+            Engineering Projects • Custom Websites • Tech Academy
+          </p>
         </div>
       )}
 
@@ -100,7 +103,7 @@ export default function CinematicIntroFlow({
           className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-black text-white backdrop-blur-md transition-all cursor-pointer hover:scale-105 shadow-xl"
         >
           <span>Explore Platform Directly</span>
-          <ArrowRight className="w-4 h-4 text-cyan-400" />
+          <ArrowRight className="w-4 h-4 text-white" />
         </button>
       </div>
     </div>

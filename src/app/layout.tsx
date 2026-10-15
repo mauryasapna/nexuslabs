@@ -15,23 +15,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NexusLabs | College Projects, Business Websites & Google #1 SEO Growth in Delhi",
+  title: "Maverick Tech | Engineering Projects, Business Websites & AI Tech Academy",
   description:
-    "100% verified working code for 1st-final year college projects, high-converting business websites with direct WhatsApp lead capture, 1-on-1 web dev mentorship with Sapna, and Google #1 SEO ranking architecture.",
+    "Maverick Tech delivers 100% verified working code for 1st-final year college projects, high-converting business websites with direct WhatsApp lead capture, 1-on-1 developer mentorship, and Google #1 SEO ranking architecture.",
   keywords: [
-    "college projects delhi",
-    "1st 2nd 3rd final year projects",
-    "business website developer delhi",
-    "learn web dev easily",
+    "Maverick Tech",
+    "maverick tech projects",
+    "college projects 1st 2nd 3rd final year",
+    "business website developer",
+    "direct whatsapp lead capture",
+    "learn web development easily",
     "google rank digital marketing",
     "student internships with LOR",
-    "Sapna web developer",
-    "SEO growth consulting delhi"
+    "engineering capstone projects"
   ],
-  authors: [{ name: "Sapna" }],
+  authors: [{ name: "Maverick Tech" }],
   openGraph: {
-    title: "NexusLabs | College Projects, Business Websites & Google #1 SEO Growth",
-    description: "Empowering students and businesses with 100% working code, high-converting websites, and Google #1 search ranking.",
+    title: "Maverick Tech | Engineering Projects, Business Websites & AI Tech Academy",
+    description: "Empowering students and businesses with 100% verified code, high-converting websites, and Google #1 search ranking.",
     type: "website",
     locale: "en_IN",
   },
@@ -40,11 +41,11 @@ export const metadata: Metadata = {
 const jsonLdSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "name": "NexusLabs Studio",
+  "name": "Maverick Tech",
   "founder": {
     "@type": "Person",
     "name": "Sapna",
-    "jobTitle": "Software Engineer & Technical Mentor"
+    "jobTitle": "Lead Software Engineer & Technical Mentor"
   },
   "address": {
     "@type": "PostalAddress",
@@ -76,7 +77,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
         />
       </head>
-      <body className="min-h-full bg-[#030712] text-gray-100 font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body className="min-h-full bg-black text-zinc-100 font-sans antialiased selection:bg-white/20 selection:text-white">
         {children}
         <Toaster />
       </body>

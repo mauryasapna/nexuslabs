@@ -4,16 +4,12 @@ import React, { useState } from "react";
 import {
   Star,
   X,
-  Sparkles,
   CheckCircle2,
-  PhoneCall,
-  User,
-  GraduationCap,
-  MessageSquare,
-  Award,
+  MessageCircle,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { saveStoredReview, StoredReview } from "@/lib/storage";
+import { buildReviewTemplate, sendToWhatsApp } from "@/lib/whatsapp";
 
 interface WriteReviewModalProps {
   isOpen: boolean;
@@ -46,6 +42,18 @@ export default function WriteReviewModal({
     "Student Internship & Certificate",
   ];
 
+  const handleSendOnWhatsApp = () => {
+    const formatted = buildReviewTemplate({
+      name,
+      collegeOrCompany,
+      service,
+      rating,
+      title,
+      comment,
+    });
+    sendToWhatsApp(formatted);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !comment.trim()) return;
@@ -57,10 +65,21 @@ export default function WriteReviewModal({
       collegeOrCompany: collegeOrCompany.trim() || "Verified Student / Client",
       service,
       rating,
-      title: title.trim() || "Excellent Experience & Mentorship!",
+      title: title.trim() || "Excellent Experience with Maverick Tech!",
       comment: comment.trim(),
       avatar: `https://images.unsplash.com/photo-${rating === 5 ? "1535713875002-d1d0cf377fde" : "1570295999919-56ceb5ecca61"}?auto=format&fit=crop&w=200&q=80`,
     });
+
+    // Format WhatsApp template and trigger
+    const formattedWhatsApp = buildReviewTemplate({
+      name: name.trim(),
+      collegeOrCompany: collegeOrCompany.trim() || "Verified Student / Client",
+      service,
+      rating,
+      title: title.trim() || "Excellent Experience with Maverick Tech!",
+      comment: comment.trim(),
+    });
+    sendToWhatsApp(formattedWhatsApp);
 
     setTimeout(() => {
       setIsSubmitting(false);
@@ -69,56 +88,38 @@ export default function WriteReviewModal({
 
       try {
         confetti({
-          particleCount: 120,
+          particleCount: 80,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ["#06b6d4", "#ec4899", "#eab308", "#10b981"],
+          colors: ["#ffffff", "#d4d4d8", "#a1a1aa", "#71717a"],
         });
       } catch (e) {}
     }, 600);
   };
 
-  const handleSendOnWhatsApp = () => {
-    const text = encodeURIComponent(
-      `Hello! I just submitted a review for NexusLabs:\n` +
-      `• Name: ${name}\n` +
-      `• Organization/College: ${collegeOrCompany}\n` +
-      `• Service: ${service}\n` +
-      `• Rating: ${rating} / 5 Stars\n` +
-      `• Title: ${title}\n` +
-      `• Review: ${comment}\n` +
-      `Thank you!`
-    );
-    window.open(`https://wa.me/919142479986?text=${text}`, "_blank");
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-2xl bg-[#070d1e] border border-cyan-500/30 p-4 sm:p-5 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-        {/* Glow backdrop */}
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-2xl bg-zinc-950 border border-white/15 p-4 sm:p-5 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-2.5 border-b border-white/10 mb-3 relative z-10">
           <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+            <Star className="w-4 h-4 text-white fill-white" />
             <h3 className="text-sm sm:text-base font-bold text-white font-outfit">
-              Write a Review
+              Write a Review for Maverick Tech
             </h3>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {isSubmitted ? (
-          <div className="py-5 text-center space-y-2.5 relative z-10 animate-in fade-in">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center mx-auto">
+          <div className="py-5 text-center space-y-3 relative z-10 animate-in fade-in">
+            <div className="w-12 h-12 rounded-2xl bg-white/10 text-white border border-white/20 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-6 h-6" />
             </div>
 
@@ -126,100 +127,68 @@ export default function WriteReviewModal({
               <h4 className="text-sm font-bold text-white font-outfit">
                 Thank You for Your Review!
               </h4>
-              <p className="text-xs text-gray-300 max-w-xs mx-auto leading-relaxed">
-                Your review has been published live in the community showcase!
+              <p className="text-xs text-zinc-300 max-w-xs mx-auto leading-relaxed">
+                Your review has been published and formatted for WhatsApp!
               </p>
             </div>
 
             <div className="pt-2 flex justify-center gap-2">
               <button
                 onClick={handleSendOnWhatsApp}
-                className="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs shadow-md flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-md flex items-center gap-1.5 cursor-pointer"
               >
-                <PhoneCall className="w-3.5 h-3.5" />
-                <span>Share on WhatsApp</span>
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Re-open WhatsApp</span>
               </button>
-
               <button
-                onClick={() => {
-                  setIsSubmitted(false);
-                  onClose();
-                }}
-                className="px-4 py-1.5 rounded-xl bg-white/10 text-white font-semibold text-xs cursor-pointer"
+                onClick={onClose}
+                className="px-4 py-2 rounded-xl bg-white/10 text-zinc-300 text-xs font-semibold hover:bg-white/15 cursor-pointer"
               >
-                Done
+                Close
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-2.5 relative z-10">
-            {/* Interactive Star Rating */}
-            <div className="flex items-center justify-between p-2 rounded-xl bg-black/40 border border-white/10">
-              <span className="text-[11px] font-semibold text-gray-300">Rating:</span>
-              <div className="flex items-center gap-0.5">
+          <form onSubmit={handleSubmit} className="space-y-3 relative z-10">
+            {/* Star Rating Select */}
+            <div className="space-y-1">
+              <label className="block text-[11px] font-semibold text-zinc-300">
+                Overall Rating *
+              </label>
+              <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
-                    type="button"
                     key={star}
+                    type="button"
+                    onClick={() => setRating(star)}
                     onMouseEnter={() => setHoverRating(star)}
                     onMouseLeave={() => setHoverRating(0)}
-                    onClick={() => setRating(star)}
-                    className="p-0.5 cursor-pointer hover:scale-125 focus:outline-none"
+                    className="p-1 cursor-pointer transition-transform hover:scale-110"
                   >
                     <Star
-                      className={`w-4 h-4 transition-colors ${
+                      className={`w-5 h-5 ${
                         (hoverRating || rating) >= star
-                          ? "text-yellow-400 fill-yellow-400"
-                          : "text-gray-600"
+                          ? "text-white fill-white"
+                          : "text-zinc-600"
                       }`}
                     />
                   </button>
                 ))}
-                <span className="text-[11px] font-bold text-yellow-400 font-mono ml-1.5">
-                  {rating}.0
+                <span className="text-xs font-bold text-zinc-300 ml-2">
+                  {rating} / 5 Stars
                 </span>
               </div>
             </div>
 
-            {/* Name and Organization */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div>
-                <label className="block text-[11px] font-semibold text-gray-300 mb-0.5">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Rahul"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-semibold text-gray-300 mb-0.5">
-                  College / City
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. DTU Delhi"
-                  value={collegeOrCompany}
-                  onChange={(e) => setCollegeOrCompany(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
-                />
-              </div>
-            </div>
-
-            {/* Service Dropdown */}
+            {/* Service Category */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-300 mb-0.5">
-                Service Used
+              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                Service Taken *
               </label>
               <select
                 value={service}
                 onChange={(e) => setService(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-[#0b1022]"
+                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-zinc-900 border-white/10"
               >
                 {servicesList.map((s) => (
                   <option key={s} value={s}>
@@ -229,56 +198,82 @@ export default function WriteReviewModal({
               </select>
             </div>
 
-            {/* Review Headline */}
+            {/* Client Name & College/Company */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Priyanshu Sharma"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                  College / Company
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. DTU / TechCorp"
+                  value={collegeOrCompany}
+                  onChange={(e) => setCollegeOrCompany(e.target.value)}
+                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                />
+              </div>
+            </div>
+
+            {/* Review Title */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-300 mb-0.5">
-                Headline (Optional)
+              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                Headline / Title *
               </label>
               <input
                 type="text"
-                placeholder="e.g. Excellent guidance & fast delivery!"
+                required
+                placeholder="e.g. 100% Working Code & Great Guidance!"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
               />
             </div>
 
-            {/* Review Comment */}
+            {/* Comment */}
             <div>
-              <label className="block text-[11px] font-semibold text-gray-300 mb-0.5">
-                Feedback *
+              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                Your Review / Experience *
               </label>
               <textarea
-                rows={2}
+                rows={3}
                 required
-                placeholder="Share your experience..."
+                placeholder="Share your experience with Maverick Tech projects or services..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
               />
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2 pt-1 border-t border-white/10">
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold cursor-pointer"
-              >
-                Cancel
-              </button>
-
+            {/* Submit */}
+            <div className="pt-2 border-t border-white/10 flex justify-between items-center gap-2">
+              <p className="text-[10px] text-zinc-400">
+                ⚡ Automatically shares your formatted review on WhatsApp
+              </p>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 py-2 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white text-xs font-bold shadow-md shadow-cyan-500/20 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="px-5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
               >
                 {isSubmitting ? (
-                  <span>Submitting...</span>
+                  "Publishing..."
                 ) : (
                   <>
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Publish Review</span>
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    <span>Publish & Send WhatsApp</span>
                   </>
                 )}
               </button>

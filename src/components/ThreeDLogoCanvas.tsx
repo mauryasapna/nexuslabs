@@ -161,26 +161,26 @@ export default function ThreeDLogoCanvas({
       };
     };
 
-    // Construct 3 Sides
-    const face1 = createPyramidFace(textureProject, 0x06b6d4, 0);
-    const face2 = createPyramidFace(textureTrainer, 0xfacc15, (2 * Math.PI) / 3);
-    const face3 = createPyramidFace(textureMarketing, 0xf43f5e, (4 * Math.PI) / 3);
+    // Construct 3 Sides (Monochrome platinum & silver borders)
+    const face1 = createPyramidFace(textureProject, 0xffffff, 0);
+    const face2 = createPyramidFace(textureTrainer, 0xd4d4d8, (2 * Math.PI) / 3);
+    const face3 = createPyramidFace(textureMarketing, 0xa1a1aa, (4 * Math.PI) / 3);
 
     pyramidRoot.add(face1.group);
     pyramidRoot.add(face2.group);
     pyramidRoot.add(face3.group);
 
-    // Core Crystal
+    // Core Crystal (Monochrome pure crystal & platinum wireframe)
     const coreCrystalGeo = new THREE.OctahedronGeometry(0.85, 0);
     const coreCrystalMat = new THREE.MeshPhysicalMaterial({
-      color: 0x38bdf8,
-      emissive: 0x0284c7,
-      emissiveIntensity: 0.8,
-      roughness: 0.1,
-      metalness: 0.9,
-      transmission: 0.8,
+      color: 0xffffff,
+      emissive: 0x71717a,
+      emissiveIntensity: 0.5,
+      roughness: 0.05,
+      metalness: 0.95,
+      transmission: 0.85,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
     });
     const coreCrystal = new THREE.Mesh(coreCrystalGeo, coreCrystalMat);
     pyramidRoot.add(coreCrystal);
@@ -189,18 +189,18 @@ export default function ThreeDLogoCanvas({
     const coreWireMat = new THREE.LineBasicMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.95,
     });
     const coreWire = new THREE.LineSegments(coreWireGeo, coreWireMat);
     pyramidRoot.add(coreWire);
 
-    // Orbiting Torus Rings
+    // Orbiting Torus Rings (Monochrome Titanium & Chrome)
     const ring1Geo = new THREE.TorusGeometry(3.6, 0.045, 16, 120);
     const ring1Mat = new THREE.MeshStandardMaterial({
-      color: 0x06b6d4,
-      emissive: 0x0891b2,
-      emissiveIntensity: 0.9,
-      metalness: 0.9,
+      color: 0xd4d4d8,
+      emissive: 0x52525b,
+      emissiveIntensity: 0.4,
+      metalness: 0.95,
       roughness: 0.1,
     });
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
@@ -210,10 +210,10 @@ export default function ThreeDLogoCanvas({
 
     const ring2Geo = new THREE.TorusGeometry(4.0, 0.035, 16, 120);
     const ring2Mat = new THREE.MeshStandardMaterial({
-      color: 0xa855f7,
-      emissive: 0x9333ea,
-      emissiveIntensity: 0.9,
-      metalness: 0.9,
+      color: 0xa1a1aa,
+      emissive: 0x3f3f46,
+      emissiveIntensity: 0.4,
+      metalness: 0.95,
       roughness: 0.1,
     });
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
@@ -221,7 +221,7 @@ export default function ThreeDLogoCanvas({
     ring2.rotation.y = -Math.PI / 4;
     pyramidRoot.add(ring2);
 
-    // 3D Particles
+    // 3D Particles (Monochrome silver stardust)
     const particleCount = 260;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
@@ -236,10 +236,10 @@ export default function ThreeDLogoCanvas({
       particlePositions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
       particlePositions[i * 3 + 2] = radius * Math.cos(phi);
 
-      const isCyan = Math.random() > 0.5;
-      particleColors[i * 3] = isCyan ? 0.1 : 0.9;
-      particleColors[i * 3 + 1] = isCyan ? 0.9 : 0.4;
-      particleColors[i * 3 + 2] = 1.0;
+      const shade = 0.55 + Math.random() * 0.45;
+      particleColors[i * 3] = shade;
+      particleColors[i * 3 + 1] = shade;
+      particleColors[i * 3 + 2] = shade;
     }
 
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
@@ -255,7 +255,7 @@ export default function ThreeDLogoCanvas({
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Bright Lights
+    // Bright Monochrome Studio Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
     scene.add(ambientLight);
 
@@ -263,17 +263,17 @@ export default function ThreeDLogoCanvas({
     directLightFront.position.set(0, 4, 10);
     scene.add(directLightFront);
 
-    const cyanLight = new THREE.PointLight(0x06b6d4, 6, 25);
-    cyanLight.position.set(5, 4, 6);
-    scene.add(cyanLight);
+    const monoLightLeft = new THREE.PointLight(0xffffff, 5, 25);
+    monoLightLeft.position.set(5, 4, 6);
+    scene.add(monoLightLeft);
 
-    const purpleLight = new THREE.PointLight(0xa855f7, 6, 25);
-    purpleLight.position.set(-5, -4, 5);
-    scene.add(purpleLight);
+    const monoLightRight = new THREE.PointLight(0xd4d4d8, 4, 25);
+    monoLightRight.position.set(-5, -4, 5);
+    scene.add(monoLightRight);
 
-    const goldLight = new THREE.PointLight(0xfacc15, 5, 20);
-    goldLight.position.set(0, 6, 4);
-    scene.add(goldLight);
+    const monoLightTop = new THREE.PointLight(0xa1a1aa, 3, 20);
+    monoLightTop.position.set(0, 6, 4);
+    scene.add(monoLightTop);
 
     // Mouse Tracking
     let mouseX = 0;
