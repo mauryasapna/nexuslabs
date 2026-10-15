@@ -54,178 +54,154 @@ export default function CollegeProjectsSection({
     }
   };
 
-  const handleSendWhatsAppDirect = () => {
-    const formatted = buildCollegeProjectTemplate({
-      projectTitle,
-      degree,
-      domain,
-      deadline,
-      addons: selectedAddons,
-      details,
-    });
-    sendToWhatsApp(formatted);
-  };
-
   const handleSubmitIdea = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!projectTitle.trim() || !details.trim()) {
-      toast.error("Please enter project title and details");
+    if (!projectTitle.trim()) {
+      toast.error("Please enter your project title or topic.");
       return;
     }
 
     setIsSubmitting(true);
 
-    // 1. Persist to local storage
-    saveProjectOrder({
-      projectTopic: projectTitle.trim(),
-      domain,
-      deadline,
-      requirements: `${degree} | Deliverables: ${selectedAddons.join(", ")} | Details: ${details.trim()}`,
-      studentName: "Student Applicant",
-      contact: "Direct Followup",
-    });
-
-    // 2. Format WhatsApp Template & Trigger WhatsApp directly
-    const formattedWhatsAppText = buildCollegeProjectTemplate({
-      projectTitle: projectTitle.trim(),
-      degree,
-      domain,
-      deadline,
-      addons: selectedAddons,
-      details: details.trim(),
-    });
-    sendToWhatsApp(formattedWhatsAppText);
-
-    // 3. Send email in the background
     try {
-      fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          type: "Custom College Project Order",
-          name: "Student Applicant",
-          contact: "Requested Direct Followup",
-          topic: `${degree} - ${projectTitle.trim()}`,
-          message: `Domain: ${domain}\nDeadline: ${deadline}\nDeliverables: ${selectedAddons.join(", ")}\nDetails: ${details.trim()}`,
-        }),
-      }).catch((err) => console.error("Brevo dispatch error:", err));
-    } catch (err) {
-      console.error("Brevo fetch error:", err);
-    }
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      toast.success("College Project Formatted for WhatsApp!", {
-        description: `Template sent to WhatsApp (+91 91424 79986).`,
-        duration: 5000,
+      saveProjectOrder({
+        projectTitle,
+        domain,
+        degree,
+        details,
+        deadline,
+        addons: selectedAddons,
       });
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ["#ffffff", "#d4d4d8", "#a1a1aa", "#71717a"],
-        });
-      } catch (e) {}
-    }, 600);
+
+      sendToWhatsApp({
+        source: "College Projects Form",
+        details: {
+          Project: projectTitle,
+          Domain: domain,
+          Degree: degree,
+          Timeline: deadline,
+          Addons: selectedAddons.join(", "),
+          CustomNotes: details || "Standard full implementation requested",
+        },
+      });
+
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.7 },
+      });
+
+      setSubmitted(true);
+      toast.success("Order request prepared! Direct WhatsApp opened.");
+    } catch {
+      toast.error("Submission failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSendWhatsAppDirect = () => {
+    sendToWhatsApp({
+      source: "College Projects Direct Button",
+      details: {
+        Project: projectTitle || "Custom College Project",
+        Domain: domain,
+        Degree: degree,
+      },
+    });
   };
 
   return (
-    <section id="projects" className="relative py-10 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
-      {/* Header Banner */}
+    <section id="projects" className="py-12 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200">
+      {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-8 space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-zinc-900 border border-white/15 text-zinc-300 text-xs font-semibold uppercase tracking-wider shadow-sm">
-          <GraduationCap className="w-3.5 h-3.5 text-white" />
-          <span>College Projects (1st, 2nd, 3rd & Final Year)</span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold uppercase tracking-wider shadow-sm">
+          <GraduationCap className="w-3.5 h-3.5 text-blue-600" />
+          <span>🎓 1. College Projects (1st, 2nd, 3rd & Final Year)</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight font-outfit">
-          College Projects for{" "}
-          <span className="gradient-text-cyan-purple">
-            1st, 2nd, 3rd & Final Year.
-          </span>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 tracking-tight font-outfit">
+          Save Your Time To Study — <span className="gradient-text-cyan-purple">We Build Your Project</span>
         </h2>
-
-        <p className="text-xs sm:text-sm text-zinc-300 font-light leading-relaxed max-w-2xl mx-auto">
-          Save 200+ hours of study time. Whether you need a 1st year mini-project or final year major capstone, Maverick Tech builds custom 100% tested working code, full setup guides, and end-to-end implementation for your college submission.
+        <p className="text-xs sm:text-sm text-zinc-600 font-normal max-w-xl mx-auto">
+          100% working source code, step-by-step setup guide, architecture diagrams, and 1-on-1 code explanation.
         </p>
       </div>
 
-      {/* Benefits Grid */}
+      {/* 4 Pillars of Project Delivery */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-2 bg-zinc-950/70">
-          <div className="p-2.5 rounded-xl bg-white/10 text-white w-fit">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-zinc-200 shadow-sm space-y-2">
+          <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 w-fit border border-blue-200">
             <Clock className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-white">Save 200+ Study Hours</h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            Focus on exams and placement prep while we build and verify your project code end-to-end.
+          <h3 className="text-sm font-bold text-zinc-900">24-48 Hours Fast Delivery</h3>
+          <p className="text-xs text-zinc-600 leading-relaxed">
+            Quick turnaround with verified working code so you never miss your college semester deadlines.
           </p>
         </div>
 
-        <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-2 bg-zinc-950/70">
-          <div className="p-2.5 rounded-xl bg-white/10 text-white w-fit">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-zinc-200 shadow-sm space-y-2">
+          <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 w-fit border border-emerald-200">
             <FileText className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-white">Architecture & Setup Guide</h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            Includes clean system architecture diagrams, database schema, and step-by-step local running instructions.
+          <h3 className="text-sm font-bold text-zinc-900">IEEE Documentation Included</h3>
+          <p className="text-xs text-zinc-600 leading-relaxed">
+            Complete project reports, ER diagrams, DFDs, PPT presentation slides, and installation manuals.
           </p>
         </div>
 
-        <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-2 bg-zinc-950/70">
-          <div className="p-2.5 rounded-xl bg-white/10 text-white w-fit">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-zinc-200 shadow-sm space-y-2">
+          <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600 w-fit border border-purple-200">
             <Video className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-white">1-on-1 Code Walkthrough</h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
+          <h3 className="text-sm font-bold text-zinc-900">1-on-1 Code Walkthrough</h3>
+          <p className="text-xs text-zinc-600 leading-relaxed">
             Direct screen-sharing call to explain every module and line of code so you defend your viva with confidence.
           </p>
         </div>
 
-        <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-2 bg-zinc-950/70">
-          <div className="p-2.5 rounded-xl bg-white/10 text-white w-fit">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-zinc-200 shadow-sm space-y-2">
+          <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 w-fit border border-amber-200">
             <ShieldCheck className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-white">100% Plagiarism Free</h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
+          <h3 className="text-sm font-bold text-zinc-900">100% Plagiarism Free</h3>
+          <p className="text-xs text-zinc-600 leading-relaxed">
             Custom engineered repository built precisely to your college requirements with clean, modular architecture.
           </p>
         </div>
       </div>
 
-      {/* Main Custom Project Submission Form Studio - Monochrome */}
-      <div className="max-w-2xl mx-auto glass-panel rounded-2xl p-4 sm:p-5 border border-white/15 shadow-xl relative overflow-hidden bg-zinc-950/95">
-        <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10 mb-3.5">
+      {/* Main Custom Project Submission Form Studio */}
+      <div className="max-w-2xl mx-auto bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200 shadow-xl relative overflow-hidden">
+        <div className="flex items-center justify-between gap-2 pb-3 border-b border-zinc-200 mb-4">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <h3 className="text-sm sm:text-base font-bold text-white font-outfit">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse" />
+            <h3 className="text-sm sm:text-base font-bold text-zinc-900 font-outfit">
               Custom College Project Request
             </h3>
           </div>
-          <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-zinc-200 text-[10px] font-semibold border border-white/20">
+          <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200">
             100% Verified Code
           </span>
         </div>
 
         {submitted ? (
           <div className="py-6 text-center space-y-3 animate-in fade-in">
-            <div className="w-12 h-12 rounded-2xl bg-white/10 text-white border border-white/20 flex items-center justify-center mx-auto shadow-lg">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto shadow-md">
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h4 className="text-base font-bold text-white font-outfit">
+              <h4 className="text-base font-bold text-zinc-900 font-outfit">
                 Project Template Created!
               </h4>
-              <p className="text-xs text-zinc-300 max-w-sm mx-auto leading-relaxed mt-1">
+              <p className="text-xs text-zinc-600 max-w-sm mx-auto leading-relaxed mt-1">
                 We received your request for <strong>&quot;{projectTitle}&quot;</strong> and formatted your WhatsApp template.
               </p>
             </div>
 
             {/* Template Details Card */}
-            <div className="text-left bg-black p-3 rounded-xl border border-white/10 text-[11px] font-mono text-zinc-300 space-y-1 max-w-md mx-auto">
-              <div className="text-zinc-500 font-bold uppercase text-[9px]">WhatsApp Template:</div>
+            <div className="text-left bg-zinc-50 p-3.5 rounded-xl border border-zinc-200 text-xs font-mono text-zinc-800 space-y-1 max-w-md mx-auto">
+              <div className="text-zinc-500 font-bold uppercase text-[10px]">WhatsApp Template:</div>
               <div><strong>Project:</strong> {projectTitle}</div>
               <div><strong>Degree:</strong> {degree}</div>
               <div><strong>Domain:</strong> {domain}</div>
@@ -235,7 +211,7 @@ export default function CollegeProjectsSection({
             <div className="pt-2 flex flex-wrap justify-center gap-2">
               <button
                 onClick={handleSendWhatsAppDirect}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black text-xs font-bold shadow-md cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-500/25 cursor-pointer flex items-center gap-1.5 active:scale-95"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Re-open WhatsApp</span>
@@ -246,150 +222,149 @@ export default function CollegeProjectsSection({
                   setProjectTitle("");
                   setDetails("");
                 }}
-                className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-zinc-300 text-xs hover:bg-white/10 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 text-zinc-700 text-xs font-bold cursor-pointer"
               >
                 Submit Another
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmitIdea} className="space-y-3">
+          <form onSubmit={handleSubmitIdea} className="space-y-3.5">
             {/* Row 1: Title & Domain */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-200 mb-1">
-                  Project Title / Concept *
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
+                  Project Title / Problem Statement *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. AI Healthcare, IoT Smart Farm..."
+                  placeholder="e.g. AI Lung Disease Detection System"
                   value={projectTitle}
                   onChange={(e) => setProjectTitle(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-xl glass-input text-xs border-white/10 focus:border-white"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-200 mb-1">
-                  Target Domain
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
+                  Technology Domain
                 </label>
                 <select
                   value={domain}
                   onChange={(e) => setDomain(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-zinc-900 border-white/10"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-medium shadow-sm"
                 >
-                  <option>AI / Machine Learning</option>
-                  <option>Full-Stack Web (Next.js/React)</option>
+                  <option>AI & Machine Learning</option>
+                  <option>Full-Stack Web (MERN / Next.js)</option>
+                  <option>Mobile App (Flutter / React Native)</option>
+                  <option>IoT, Robotics & Arduino/ESP32</option>
                   <option>Blockchain & Smart Contracts</option>
-                  <option>IoT & Embedded Systems</option>
-                  <option>Mobile App (Flutter/React Native)</option>
                   <option>Cloud Computing & DevOps</option>
-                  <option>Database (SQL/MongoDB)</option>
                 </select>
               </div>
             </div>
 
-            {/* Row 2: Degree Level & Timeline */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {/* Row 2: Degree Year & Timeline */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-200 mb-1">
-                  Degree / Year Level
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
+                  Academic Year
                 </label>
                 <select
                   value={degree}
                   onChange={(e) => setDegree(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-zinc-900 border-white/10"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-medium shadow-sm"
                 >
-                  <option>B.Tech / B.E (Final Year Major)</option>
-                  <option>B.Tech / B.E (3rd Year Minor)</option>
-                  <option>B.Tech / B.E (1st/2nd Year)</option>
-                  <option>BCA / MCA Capstone</option>
-                  <option>M.Tech / MS Thesis</option>
-                  <option>Polytechnic / Diploma</option>
+                  <option>1st Year (C/C++/Python Basics)</option>
+                  <option>2nd Year (OOP / Data Structures)</option>
+                  <option>3rd Year (Mini Project / Web & DB)</option>
+                  <option>B.Tech / B.E (Final Year Major Project)</option>
+                  <option>MCA / M.Tech (Advanced Research)</option>
+                  <option>Diploma / Polytechnic</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-200 mb-1">
-                  Timeline
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
+                  Delivery Deadline
                 </label>
                 <select
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-zinc-900 border-white/10"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-medium shadow-sm"
                 >
-                  <option>Urgent (3-5 Days)</option>
-                  <option>1-2 Weeks</option>
+                  <option>Urgent (24 - 48 Hours)</option>
+                  <option>1 Week</option>
                   <option>2-3 Weeks</option>
-                  <option>1 Month+</option>
+                  <option>Flexible (Next Month)</option>
                 </select>
               </div>
             </div>
 
-            {/* Row 3: Description */}
+            {/* Specific Instructions */}
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-200 mb-1">
-                Project Requirements & Description *
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
+                Specific Features or College Guidelines (Optional)
               </label>
               <textarea
                 rows={2}
-                required
-                placeholder="Briefly describe key features, tech stack, or guidelines..."
+                placeholder="Mention mandatory algorithms, database preference, UI theme, or teacher constraints..."
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-xl glass-input text-xs border-white/10 focus:border-white"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm resize-none"
               />
             </div>
 
-            {/* Row 4: Compact Deliverables */}
+            {/* Addons Selection */}
             <div>
-              <label className="block text-[10px] font-semibold text-zinc-400 mb-1">
-                Deliverables Included:
+              <label className="block text-xs font-bold text-zinc-700 mb-1.5">
+                Included Deliverables:
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                {addonsList.slice(0, 3).map((addon) => (
-                  <button
-                    key={addon}
-                    type="button"
-                    onClick={() => toggleAddon(addon)}
-                    className={`text-left p-1.5 rounded-lg border text-[10px] transition-all flex items-center gap-1.5 cursor-pointer ${
-                      selectedAddons.includes(addon)
-                        ? "bg-white/15 border-white/30 text-white font-medium"
-                        : "bg-white/[0.02] border-white/5 text-zinc-400"
-                    }`}
-                  >
-                    <CheckCircle2
-                      className={`w-3 h-3 shrink-0 ${
-                        selectedAddons.includes(addon)
-                          ? "text-white"
-                          : "text-zinc-600"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {addonsList.map((addon) => {
+                  const isChecked = selectedAddons.includes(addon);
+                  return (
+                    <button
+                      type="button"
+                      key={addon}
+                      onClick={() => toggleAddon(addon)}
+                      className={`px-2.5 py-1.5 rounded-lg border text-left text-[11px] font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
+                        isChecked
+                          ? "bg-blue-50 border-blue-300 text-blue-900 font-bold"
+                          : "bg-zinc-50 border-zinc-200 text-zinc-600 hover:border-zinc-300"
                       }`}
-                    />
-                    <span className="truncate">{addon}</span>
-                  </button>
-                ))}
+                    >
+                      <CheckCircle2
+                        className={`w-3.5 h-3.5 shrink-0 ${
+                          isChecked ? "text-blue-600" : "text-zinc-400"
+                        }`}
+                      />
+                      <span className="truncate">{addon}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Submit directly to WhatsApp */}
-            <div className="pt-2 border-t border-white/10 flex justify-between items-center gap-2">
-              <p className="text-[10px] text-zinc-400">
-                ⚡ Sends your full project requirements directly to WhatsApp
-              </p>
+            {/* Action Submit Buttons - Filled Colors */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center gap-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+                className="w-full sm:flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
-                {isSubmitting ? (
-                  <span>Formatting...</span>
-                ) : (
-                  <>
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    <span>Send on WhatsApp</span>
-                  </>
-                )}
+                <Send className="w-3.5 h-3.5" />
+                <span>{isSubmitting ? "Generating Template..." : "Order Project via WhatsApp"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSendWhatsAppDirect}
+                className="w-full sm:w-auto px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-500/25 transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Direct WhatsApp</span>
               </button>
             </div>
           </form>

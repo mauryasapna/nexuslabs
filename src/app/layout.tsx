@@ -70,14 +70,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${inter.variable} dark h-full`}>
+    <html lang="en" className={`${outfit.variable} ${inter.variable} h-full`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
         />
       </head>
-      <body className="min-h-full bg-black text-zinc-100 font-sans antialiased selection:bg-white/20 selection:text-white">
+      <body className="min-h-full bg-white text-zinc-900 font-sans antialiased selection:bg-blue-600 selection:text-white">
         {children}
         <Toaster />
       </body>

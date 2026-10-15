@@ -14,7 +14,7 @@ export default function FAQSection({ onOpenConnect }: FAQSectionProps) {
   const faqs = [
     {
       q: "How does the Maverick Tech College Project service work?",
-      a: "You simply share your project idea or problem statement. We provide 100% working source code (frontend + backend + AI/ML/IoT), complete IEEE format 10-chapter documentation, professional PPT presentation, and 1-on-1 viva coaching so you can defend your project with confidence.",
+      a: "You simply share your project idea or problem statement. We provide 100% working source code (frontend + backend + AI/ML/IoT), complete IEEE format documentation, professional PPT presentation, and 1-on-1 viva coaching so you can defend your project with confidence.",
       badge: "College Projects",
     },
     {
@@ -49,29 +49,27 @@ export default function FAQSection({ onOpenConnect }: FAQSectionProps) {
   };
 
   const handleAskMentorWhatsApp = () => {
-    const template = [
-      `*MAVERICK TECH — GENERAL FAQ INQUIRY*`,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      `Hello Maverick Tech Team! I was browsing your FAQ section and have a question regarding your engineering projects / website development services.`,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      `Could you please connect with me to answer my questions?`,
-    ].join("\n");
-    sendToWhatsApp(template);
+    sendToWhatsApp({
+      source: "FAQ Section",
+      details: {
+        Inquiry: "General FAQ Inquiry & Clarification",
+      },
+    });
   };
 
   return (
     <section id="faq" className="py-12 sm:py-16 px-3 sm:px-6 w-full">
-      <div className="w-full bg-zinc-950 rounded-3xl border border-white/10 shadow-2xl p-4 sm:p-8 relative overflow-hidden">
+      <div className="w-full bg-white rounded-3xl border border-zinc-200 shadow-xl p-5 sm:p-8 relative overflow-hidden">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/15 text-zinc-300 text-xs font-semibold">
-            <HelpCircle className="w-3.5 h-3.5 text-white" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold uppercase tracking-wider">
+            <HelpCircle className="w-3.5 h-3.5 text-blue-600" />
             <span>FREQUENTLY ASKED QUESTIONS</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white font-outfit tracking-tight">
-            Got Questions? <span className="gradient-text-silver">We Have Answers.</span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 font-outfit tracking-tight">
+            Got Questions? <span className="gradient-text-cyan-purple">We Have Answers.</span>
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-400">
+          <p className="text-xs sm:text-sm text-zinc-600">
             Everything you need to know about Maverick Tech projects, internships, web development, and 1-on-1 mentorship.
           </p>
         </div>
@@ -85,8 +83,8 @@ export default function FAQSection({ onOpenConnect }: FAQSectionProps) {
                 key={idx}
                 className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? "bg-zinc-900 border-white/30 shadow-lg"
-                    : "bg-black/60 border-white/10 hover:border-white/20"
+                    ? "bg-blue-50/40 border-blue-200 shadow-sm"
+                    : "bg-zinc-50 border-zinc-200 hover:border-zinc-300"
                 }`}
               >
                 <button
@@ -94,22 +92,22 @@ export default function FAQSection({ onOpenConnect }: FAQSectionProps) {
                   className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 border border-white/15 text-white">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 border border-blue-200 text-blue-800 shrink-0">
                       {faq.badge}
                     </span>
-                    <span className="text-xs sm:text-sm font-bold text-white font-outfit">
+                    <span className="text-xs sm:text-sm font-bold text-zinc-900 font-outfit">
                       {faq.q}
                     </span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-zinc-300 shrink-0 transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : ""
+                    className={`w-4 h-4 text-zinc-500 shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180 text-blue-600" : ""
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 sm:px-5 pb-4 pt-1 text-xs sm:text-sm text-zinc-300 leading-relaxed font-light border-t border-white/5 animate-in fade-in">
+                  <div className="px-4 sm:px-5 pb-4 pt-1 text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal border-t border-blue-100 animate-in fade-in">
                     {faq.a}
                   </div>
                 )}
@@ -119,21 +117,21 @@ export default function FAQSection({ onOpenConnect }: FAQSectionProps) {
         </div>
 
         {/* Bottom Connect CTA */}
-        <div className="mt-8 text-center pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <p className="text-xs text-zinc-400">
+        <div className="mt-8 text-center pt-6 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <p className="text-xs text-zinc-600 font-medium">
             Still have a specific question about your project or business website?
           </p>
           <div className="flex items-center gap-2">
             <button
               onClick={handleAskMentorWhatsApp}
-              className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer active:scale-95"
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-500/25 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
             >
               <MessageCircle className="w-3.5 h-3.5" />
               <span>Ask on WhatsApp</span>
             </button>
             <button
               onClick={() => onOpenConnect("FAQ Direct Inquiry")}
-              className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-white font-bold text-xs transition-all flex items-center gap-2 cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/25 transition-all flex items-center gap-2 cursor-pointer active:scale-95"
             >
               <PhoneCall className="w-3.5 h-3.5" />
               <span>Direct Form</span>

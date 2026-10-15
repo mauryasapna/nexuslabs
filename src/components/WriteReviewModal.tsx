@@ -56,62 +56,61 @@ export default function WriteReviewModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !comment.trim()) return;
+    if (!name.trim() || !title.trim() || !comment.trim()) {
+      alert("Please fill in all required fields (Name, Title, Review)");
+      return;
+    }
 
     setIsSubmitting(true);
 
-    const newReview = saveStoredReview({
+    const newReview: StoredReview = {
+      id: "rev_" + Date.now(),
       name: name.trim(),
-      collegeOrCompany: collegeOrCompany.trim() || "Verified Student / Client",
+      collegeOrCompany: collegeOrCompany.trim() || "Engineering Student",
       service,
       rating,
-      title: title.trim() || "Excellent Experience with Maverick Tech!",
+      title: title.trim(),
       comment: comment.trim(),
-      avatar: `https://images.unsplash.com/photo-${rating === 5 ? "1535713875002-d1d0cf377fde" : "1570295999919-56ceb5ecca61"}?auto=format&fit=crop&w=200&q=80`,
+      createdAt: new Date().toISOString(),
+    };
+
+    saveStoredReview(newReview);
+    onReviewSubmitted(newReview);
+
+    handleSendOnWhatsApp();
+
+    confetti({
+      particleCount: 50,
+      spread: 60,
+      origin: { y: 0.6 },
     });
 
-    // Format WhatsApp template and trigger
-    const formattedWhatsApp = buildReviewTemplate({
-      name: name.trim(),
-      collegeOrCompany: collegeOrCompany.trim() || "Verified Student / Client",
-      service,
-      rating,
-      title: title.trim() || "Excellent Experience with Maverick Tech!",
-      comment: comment.trim(),
-    });
-    sendToWhatsApp(formattedWhatsApp);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      onReviewSubmitted(newReview);
-
-      try {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ["#ffffff", "#d4d4d8", "#a1a1aa", "#71717a"],
-        });
-      } catch (e) {}
-    }, 600);
+    setIsSubmitting(false);
+    setIsSubmitted(true);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-2xl bg-zinc-950 border border-white/15 p-4 sm:p-5 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-        {/* Modal Header */}
-        <div className="flex items-center justify-between pb-2.5 border-b border-white/10 mb-3 relative z-10">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+      <div className="w-full max-w-md rounded-2xl p-5 sm:p-6 border border-zinc-200 relative shadow-2xl overflow-hidden my-auto bg-white text-zinc-900">
+        {/* Header */}
+        <div className="flex items-center justify-between gap-2 pb-3 border-b border-zinc-200 mb-4">
           <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-white fill-white" />
-            <h3 className="text-sm sm:text-base font-bold text-white font-outfit">
-              Write a Review for Maverick Tech
-            </h3>
+            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+              <Star className="w-4 h-4 fill-amber-500" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-zinc-900 font-outfit">
+                Write a Review
+              </h3>
+              <p className="text-[11px] text-zinc-500">
+                Share your feedback with the Maverick Tech community
+              </p>
+            </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-500 hover:text-zinc-800 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -119,15 +118,15 @@ export default function WriteReviewModal({
 
         {isSubmitted ? (
           <div className="py-5 text-center space-y-3 relative z-10 animate-in fade-in">
-            <div className="w-12 h-12 rounded-2xl bg-white/10 text-white border border-white/20 flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto shadow-md">
               <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-sm font-bold text-white font-outfit">
+              <h4 className="text-sm sm:text-base font-bold text-zinc-900 font-outfit">
                 Thank You for Your Review!
               </h4>
-              <p className="text-xs text-zinc-300 max-w-xs mx-auto leading-relaxed">
+              <p className="text-xs text-zinc-600 max-w-xs mx-auto leading-relaxed">
                 Your review has been published and formatted for WhatsApp!
               </p>
             </div>
@@ -135,24 +134,24 @@ export default function WriteReviewModal({
             <div className="pt-2 flex justify-center gap-2">
               <button
                 onClick={handleSendOnWhatsApp}
-                className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-md flex items-center gap-1.5 cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-500/25 flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Re-open WhatsApp</span>
               </button>
               <button
                 onClick={onClose}
-                className="px-4 py-2 rounded-xl bg-white/10 text-zinc-300 text-xs font-semibold hover:bg-white/15 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold cursor-pointer"
               >
                 Close
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3 relative z-10">
+          <form onSubmit={handleSubmit} className="space-y-3.5 relative z-10">
             {/* Star Rating Select */}
             <div className="space-y-1">
-              <label className="block text-[11px] font-semibold text-zinc-300">
+              <label className="block text-xs font-bold text-zinc-700">
                 Overall Rating *
               </label>
               <div className="flex items-center gap-1">
@@ -168,13 +167,13 @@ export default function WriteReviewModal({
                     <Star
                       className={`w-5 h-5 ${
                         (hoverRating || rating) >= star
-                          ? "text-white fill-white"
-                          : "text-zinc-600"
+                          ? "text-amber-500 fill-amber-400"
+                          : "text-zinc-300"
                       }`}
                     />
                   </button>
                 ))}
-                <span className="text-xs font-bold text-zinc-300 ml-2">
+                <span className="text-xs font-bold text-zinc-700 ml-2">
                   {rating} / 5 Stars
                 </span>
               </div>
@@ -182,13 +181,13 @@ export default function WriteReviewModal({
 
             {/* Service Category */}
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
                 Service Taken *
               </label>
               <select
                 value={service}
                 onChange={(e) => setService(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs bg-zinc-900 border-white/10"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white font-medium shadow-sm"
               >
                 {servicesList.map((s) => (
                   <option key={s} value={s}>
@@ -199,9 +198,9 @@ export default function WriteReviewModal({
             </div>
 
             {/* Client Name & College/Company */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
                   Your Name *
                 </label>
                 <input
@@ -210,72 +209,70 @@ export default function WriteReviewModal({
                   placeholder="e.g. Priyanshu Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+                <label className="block text-xs font-bold text-zinc-700 mb-1">
                   College / Company
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. DTU / TechCorp"
+                  placeholder="e.g. SRM / Infosys"
                   value={collegeOrCompany}
                   onChange={(e) => setCollegeOrCompany(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm"
                 />
               </div>
             </div>
 
             {/* Review Title */}
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
                 Headline / Title *
               </label>
               <input
                 type="text"
                 required
-                placeholder="e.g. 100% Working Code & Great Guidance!"
+                placeholder="e.g. 100% Working Code & Scored A+ in Viva!"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm"
               />
             </div>
 
-            {/* Comment */}
+            {/* Review Body */}
             <div>
-              <label className="block text-[11px] font-semibold text-zinc-300 mb-1">
-                Your Review / Experience *
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
+                Detailed Review *
               </label>
               <textarea
-                rows={3}
                 required
-                placeholder="Share your experience with Maverick Tech projects or services..."
+                rows={3}
+                placeholder="Write your experience with our mentorship, project speed, communication, or code quality..."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                className="w-full px-2.5 py-1.5 rounded-xl glass-input text-xs"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm resize-none"
               />
             </div>
 
             {/* Submit */}
-            <div className="pt-2 border-t border-white/10 flex justify-between items-center gap-2">
-              <p className="text-[10px] text-zinc-400">
-                ⚡ Automatically shares your formatted review on WhatsApp
-              </p>
+            <div className="pt-2 border-t border-zinc-200 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold cursor-pointer"
+              >
+                Cancel
+              </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/25 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 disabled:opacity-50"
               >
-                {isSubmitting ? (
-                  "Publishing..."
-                ) : (
-                  <>
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    <span>Publish & Send WhatsApp</span>
-                  </>
-                )}
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{isSubmitting ? "Publishing..." : "Submit Review"}</span>
               </button>
             </div>
           </form>

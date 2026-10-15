@@ -122,9 +122,9 @@ export default function HomePage() {
   }
 
   return (
-    <div id="home" className="min-h-screen bg-black text-gray-100 flex flex-col relative selection:bg-white/20 selection:text-white pb-16 lg:pb-0 overflow-x-hidden w-full">
+    <div id="home" className="min-h-screen bg-white text-zinc-900 flex flex-col relative selection:bg-blue-600 selection:text-white pb-16 lg:pb-0 overflow-x-hidden w-full">
       {/* Background ambient lighting pattern */}
-      <div className="fixed inset-0 bg-grid-pattern opacity-20 pointer-events-none -z-10" />
+      <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none -z-10" />
 
       {/* Top Navbar with Clean Hamburger Button & Full Width */}
       <Navbar

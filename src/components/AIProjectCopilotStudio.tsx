@@ -139,18 +139,18 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
 
   return (
     <section id="ai-copilot" className="py-8 sm:py-12 px-2 sm:px-4 lg:px-6 w-full">
-      <div className="w-full bg-gradient-to-b from-zinc-900/60 via-black to-zinc-950 rounded-3xl border border-white/10 shadow-2xl p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+      <div className="w-full bg-white rounded-3xl border border-zinc-200 shadow-xl p-4 sm:p-6 lg:p-8 relative overflow-hidden">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/15 text-zinc-300 text-xs font-semibold mb-2">
-              <Cpu className="w-3.5 h-3.5 text-white animate-spin" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold mb-2">
+              <Cpu className="w-3.5 h-3.5 text-blue-600 animate-spin" />
               <span>AI PROJECT & VIVA BLUEPRINT ENGINE</span>
             </div>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white font-outfit tracking-tight">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-zinc-900 font-outfit tracking-tight">
               Instant AI Project Scaffolder & <span className="gradient-text-silver">Viva Coach</span>
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-400 max-w-2xl mt-1">
+            <p className="text-xs sm:text-sm text-zinc-600 max-w-2xl mt-1">
               Type your custom final year topic or select a prompt below. Watch the AI generate full system architecture, IEEE abstract & viva defense answers in real-time.
             </p>
           </div>
@@ -158,14 +158,14 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
           <div className="flex items-center gap-2">
             <button
               onClick={handleWhatsAppOrder}
-              className="px-4 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 active:scale-95"
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 active:scale-95"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Order via WhatsApp</span>
             </button>
             <button
               onClick={() => onOpenConnect(`Custom AI Project: ${projectOutput.title}`)}
-              className="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-white font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+              className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
             >
               <Sparkles className="w-4 h-4" />
               <span>Customize Details</span>
@@ -182,12 +182,12 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
               onChange={(e) => setPromptInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
               placeholder="E.g., Blockchain Healthcare Records with Zero-Knowledge Proofs or IoT Drone Tracker..."
-              className="w-full py-3.5 pl-4 pr-32 rounded-2xl bg-black border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all placeholder:text-zinc-500"
+              className="w-full py-3.5 pl-4 pr-32 rounded-2xl bg-zinc-50 border border-zinc-300 text-zinc-900 text-xs sm:text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm"
             />
             <button
               onClick={() => handleGenerate()}
               disabled={isGenerating}
-              className="absolute right-2 px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+              className="absolute right-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-blue-500/20 disabled:opacity-50"
             >
               {isGenerating ? (
                 <>
@@ -205,8 +205,8 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
 
           {/* Quick Preset Badges */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
-            <span className="text-[11px] font-semibold text-zinc-400 shrink-0 flex items-center gap-1">
-              <Flame className="w-3 h-3 text-zinc-300" /> Popular:
+            <span className="text-[11px] font-semibold text-zinc-500 shrink-0 flex items-center gap-1">
+              <Flame className="w-3 h-3 text-amber-500" /> Popular:
             </span>
             {samplePresets.map((preset, idx) => (
               <button
@@ -215,7 +215,7 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
                   setPromptInput(preset);
                   handleGenerate(preset);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] text-zinc-300 hover:text-white whitespace-nowrap transition-colors cursor-pointer"
+                className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-[11px] text-zinc-700 whitespace-nowrap transition-colors cursor-pointer font-medium"
               >
                 {preset.split(" with ")[0]}
               </button>
@@ -224,28 +224,29 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
         </div>
 
         {/* AI Output Terminal & Tabs Box */}
-        <div className="mt-6 bg-black rounded-2xl border border-white/10 overflow-hidden">
+        <div className="mt-6 bg-zinc-50 rounded-2xl border border-zinc-200 overflow-hidden shadow-sm">
           {/* Header Controls */}
-          <div className="px-4 py-3 bg-zinc-900/60 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <div className="px-4 py-3 bg-zinc-100/90 border-b border-zinc-200 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-zinc-300" />
-              <span className="text-xs font-bold text-white font-mono truncate max-w-xs sm:max-w-md">
+              <Terminal className="w-4 h-4 text-blue-600" />
+              <span className="text-xs font-bold text-zinc-900 font-mono truncate max-w-xs sm:max-w-md">
                 {projectOutput.title}
               </span>
-              <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-white/10 text-white border border-white/20">
+              <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
                 {projectOutput.category}
               </span>
             </div>
 
-            <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-white/10">
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-zinc-200 shadow-xs">
               {(["architecture", "techstack", "abstract", "viva"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${activeTab === tab
-                      ? "bg-white text-black font-bold shadow-sm"
-                      : "text-zinc-400 hover:text-white"
-                    }`}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    activeTab === tab
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "text-zinc-600 hover:text-zinc-900"
+                  }`}
                 >
                   {tab === "architecture" && "Architecture"}
                   {tab === "techstack" && "Tech Stack"}
@@ -257,13 +258,13 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
           </div>
 
           {/* Content Area */}
-          <div className="p-4 sm:p-6 min-h-[220px] text-xs sm:text-sm font-mono text-zinc-300">
+          <div className="p-4 sm:p-6 min-h-[220px] text-xs sm:text-sm font-mono text-zinc-800">
             {activeTab === "architecture" && (
               <div className="space-y-3">
-                <p className="text-[11px] text-zinc-400 font-semibold tracking-wider uppercase font-mono">
+                <p className="text-[11px] text-blue-600 font-bold tracking-wider uppercase font-mono">
                   // System Flow & Component Pipeline:
                 </p>
-                <pre className="p-4 rounded-xl bg-zinc-950 border border-white/10 whitespace-pre-wrap leading-relaxed text-zinc-200">
+                <pre className="p-4 rounded-xl bg-white border border-zinc-200 whitespace-pre-wrap leading-relaxed text-zinc-800 shadow-xs">
                   {projectOutput.architecture}
                 </pre>
               </div>
@@ -274,12 +275,12 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
                 {projectOutput.techstack.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded-xl bg-zinc-900/60 border border-white/10 flex flex-col justify-between"
+                    className="p-3.5 rounded-xl bg-white border border-zinc-200 flex flex-col justify-between shadow-xs"
                   >
-                    <span className="text-[10px] text-zinc-400 font-bold uppercase">
+                    <span className="text-[10px] text-zinc-500 font-bold uppercase">
                       {item.name}
                     </span>
-                    <span className="text-xs text-white font-semibold mt-1">
+                    <span className="text-xs text-zinc-900 font-bold mt-1">
                       {item.val}
                     </span>
                   </div>
@@ -290,17 +291,17 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
             {activeTab === "abstract" && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-zinc-400 font-bold uppercase">
+                  <span className="text-[10px] text-blue-600 font-bold uppercase">
                     IEEE Standard Formal Abstract
                   </span>
                   <button
                     onClick={handleCopy}
-                    className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] text-zinc-600 hover:text-blue-600 transition-colors cursor-pointer font-bold"
                   >
                     {copied ? (
                       <>
-                        <CheckCircle className="w-3.5 h-3.5 text-white" />
-                        <span className="text-white font-bold">Copied!</span>
+                        <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700 font-bold">Copied!</span>
                       </>
                     ) : (
                       <>
@@ -310,7 +311,7 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
                     )}
                   </button>
                 </div>
-                <p className="p-4 rounded-xl bg-zinc-950 border border-white/10 leading-relaxed text-zinc-200 font-sans">
+                <p className="p-4 rounded-xl bg-white border border-zinc-200 leading-relaxed text-zinc-800 font-sans shadow-xs">
                   {projectOutput.abstract}
                 </p>
               </div>
@@ -318,20 +319,20 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
 
             {activeTab === "viva" && (
               <div className="space-y-3">
-                <p className="text-[10px] text-zinc-400 font-bold uppercase">
+                <p className="text-[10px] text-blue-600 font-bold uppercase">
                   Common Viva Defense Questions & Answers
                 </p>
                 <div className="space-y-2.5">
                   {projectOutput.vivaQuestions.map((item, idx) => (
                     <div
                       key={idx}
-                      className="p-3 rounded-xl bg-zinc-950 border border-white/10 space-y-1 font-sans"
+                      className="p-3.5 rounded-xl bg-white border border-zinc-200 space-y-1 font-sans shadow-xs"
                     >
-                      <p className="text-xs font-bold text-white flex items-start gap-1.5">
-                        <HelpCircle className="w-3.5 h-3.5 text-zinc-300 shrink-0 mt-0.5" />
+                      <p className="text-xs font-bold text-zinc-900 flex items-start gap-1.5">
+                        <HelpCircle className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
                         <span>Q: {item.q}</span>
                       </p>
-                      <p className="text-xs text-zinc-300 pl-5 font-light">
+                      <p className="text-xs text-zinc-600 pl-5 font-normal leading-relaxed">
                         A: {item.a}
                       </p>
                     </div>
@@ -342,23 +343,23 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
           </div>
 
           {/* Bottom Action Footer */}
-          <div className="p-3 bg-zinc-900/60 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-zinc-400">
-              <ShieldCheck className="w-4 h-4 text-white" />
+          <div className="p-3 bg-zinc-100/90 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2 text-zinc-600 font-medium">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>Full Working Source Code + IEEE Report + PPT Delivered</span>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <button
                 onClick={handleWhatsAppOrder}
-                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-md shadow-emerald-500/20 active:scale-95"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 <span>Build This on WhatsApp</span>
               </button>
               <button
                 onClick={() => onOpenConnect(`Project Build Order: ${projectOutput.title}`)}
-                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-md shadow-blue-500/20 active:scale-95"
               >
                 <span>Customize</span>
                 <ArrowRight className="w-3.5 h-3.5" />

@@ -5,13 +5,18 @@
 
 export interface StoredProjectOrder {
   id: string;
-  projectTopic: string;
+  projectTopic?: string;
+  projectTitle?: string;
   domain: string;
   deadline: string;
   requirements?: string;
-  studentName: string;
-  contact: string;
+  details?: string;
+  studentName?: string;
+  name?: string;
+  contact?: string;
   college?: string;
+  degree?: string;
+  addons?: string[];
   createdAt: string;
 }
 
@@ -27,12 +32,15 @@ export interface StoredInternshipApplication {
 
 export interface StoredCustomInternship {
   id: string;
-  customDomain: string;
-  studentName: string;
-  contact: string;
+  customDomain?: string;
+  domain?: string;
+  studentName?: string;
+  name?: string;
+  contact?: string;
   college?: string;
   year?: string;
-  workMode: string;
+  workMode?: string;
+  mode?: string;
   duration: string;
   skills?: string;
   createdAt: string;

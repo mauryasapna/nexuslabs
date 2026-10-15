@@ -9,7 +9,9 @@ import {
   ArrowRight,
   Zap,
   TrendingUp,
+  MessageCircle,
 } from "lucide-react";
+import { sendToWhatsApp } from "@/lib/whatsapp";
 
 interface HeroSectionProps {
   user: { name: string; email: string; role: UserRole } | null;
@@ -69,31 +71,31 @@ export default function HeroSection({
       ],
     },
     seo: {
-      tag: "📈 4. Google Rank with the Help of Digital Marketing",
-      title: "Google Rank with the Help of Digital Marketing.",
-      highlight: "Rank #1 on Google Searches & 10x Organic Customer Inquiries.",
-      subtitle: "Dominate Google search results with algorithmic on-page technical SEO, high-intent keyword targeting, authority backlink development, and conversion-focused customer funnels.",
-      ctaText: "Analyze Website & Rank #1",
+      tag: "📈 4. Google Rank Digital Marketing (SEO Engine)",
+      title: "Rank Your Website #1 on Google Fast.",
+      highlight: "Technical SEO, Core Web Vitals & Local Search Optimization.",
+      subtitle: "Drive predictable inbound organic client traffic. We optimize schema architecture, page speed, mobile performance, and local business map pack listings for maximum organic revenue.",
+      ctaText: "Scale Google Search Ranking",
       ctaHref: "#digital-marketing",
       ctaIcon: TrendingUp,
       metrics: [
-        { label: "Google Ranking", value: "Top #1" },
-        { label: "Traffic Growth", value: "10x Surge" },
-        { label: "Local SEO", value: "High Intent" },
+        { label: "Google PageSpeed", value: "98-100" },
+        { label: "Search Ranking", value: "Top 3 Goal" },
+        { label: "Monthly ROI", value: "High Inbound" },
       ],
     },
     internships: {
-      tag: "💼 5. Find Internship with Maverick Tech",
-      title: "Find Internship with Maverick Tech — Real Production Work.",
-      highlight: "Work on Production Codebases with Official LOR & Certificate.",
-      subtitle: "Gain real-world software engineering and growth experience under personal tech mentorship. Contribute to live repositories, master Git workflows, and receive recognized completion certificates and recommendation letters for your resume.",
-      ctaText: "Apply For Internship With Us",
+      tag: "💼 5. Production Software Internships",
+      title: "Production Software Development Internships.",
+      highlight: "Live GitHub Repository PRs & Verified Recommendation Letters.",
+      subtitle: "Stop doing dummy tutorial assignments. Work on live enterprise applications, commit code to real GitHub repos, and earn verifiable Experience Certificates and Personalized Letters of Recommendation (LOR).",
+      ctaText: "Apply for Live Internship",
       ctaHref: "#internships",
       ctaIcon: Briefcase,
       metrics: [
-        { label: "Real Repositories", value: "Live Code" },
-        { label: "Official LOR", value: "Included" },
-        { label: "Work Mode", value: "Remote/Hybrid" },
+        { label: "Repo Work", value: "Live Code" },
+        { label: "Deliverables", value: "Cert + LOR" },
+        { label: "Direct Mentor", value: "1-on-1 Code" },
       ],
     },
   };
@@ -101,27 +103,36 @@ export default function HeroSection({
   const current = hubData[activeHub];
   const CtaIcon = current.ctaIcon;
 
-  return (
-    <section className="relative pt-6 sm:pt-10 pb-12 sm:pb-16 px-3 sm:px-6 w-full overflow-hidden">
-      {/* Background ambient lighting (Monochrome) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-80 bg-gradient-to-b from-white/[0.05] via-white/[0.02] to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+  const tabs = [
+    { id: "projects", label: "1. College Projects" },
+    { id: "business", label: "2. Business Website" },
+    { id: "learn-web", label: "3. Learn Web Dev" },
+    { id: "seo", label: "4. Google SEO Rank" },
+    { id: "internships", label: "5. Internships + LOR" },
+  ];
 
-      {/* Hub Tabs Navigation (The 5 Core Pillars - Monochrome) */}
-      <div className="max-w-5xl mx-auto mb-8 flex items-center justify-center gap-2 flex-wrap">
-        {[
-          { id: "projects", label: "1. 🎓 College Projects" },
-          { id: "business", label: "2. 🏢 Business Website" },
-          { id: "learn-web", label: "3. ⚡ Learn Web Dev Easily" },
-          { id: "seo", label: "4. 📈 Google Rank / SEO" },
-          { id: "internships", label: "5. 💼 Find Internship" },
-        ].map((tab) => (
+  const handleWhatsApp = () => {
+    sendToWhatsApp({
+      source: "Hero Section",
+      details: {
+        Offering: current.tag,
+        Inquiry: current.ctaText,
+      },
+    });
+  };
+
+  return (
+    <section className="relative pt-6 pb-12 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      {/* 5 Core Offerings Switcher Tabs */}
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 flex-wrap max-w-4xl mx-auto mb-8 p-1.5 rounded-2xl bg-zinc-100/80 border border-zinc-200">
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveHub(tab.id as any)}
-            className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition-all cursor-pointer shadow-md ${
+            className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-sm ${
               activeHub === tab.id
-                ? "bg-white text-black border-white scale-105"
-                : "bg-white/[0.04] border-white/10 text-zinc-300 hover:text-white hover:border-white/20"
+                ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 scale-105"
+                : "bg-white border border-zinc-200 text-zinc-700 hover:text-zinc-900 hover:border-zinc-300"
             }`}
           >
             {tab.label}
@@ -130,15 +141,15 @@ export default function HeroSection({
       </div>
 
       {/* Dedicated Hero Content */}
-      <div className="max-w-4xl mx-auto text-center space-y-5 animate-in fade-in duration-300">
+      <div className="max-w-4xl mx-auto text-center space-y-6 animate-in fade-in duration-300">
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-zinc-900 text-zinc-200 text-xs font-semibold tracking-wide shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 bg-blue-50 text-blue-800 text-xs font-bold tracking-wide shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
           <span>{current.tag}</span>
         </div>
 
         {/* Primary Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.15] font-outfit">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-zinc-900 tracking-tight leading-[1.15] font-outfit">
           {current.title}{" "}
           <br className="hidden sm:inline" />
           <span className="gradient-text-cyan-purple">
@@ -147,29 +158,29 @@ export default function HeroSection({
         </h1>
 
         {/* Subtitle Description */}
-        <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="text-sm sm:text-base lg:text-lg text-zinc-600 max-w-2xl mx-auto font-normal leading-relaxed">
           {current.subtitle}
         </p>
 
         {/* Key Real Metrics */}
         <div className="pt-2 flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
           {current.metrics.map((m, i) => (
-            <div key={i} className="text-center px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 min-w-[90px]">
-              <div className="text-base sm:text-xl font-black text-white font-mono">
+            <div key={i} className="text-center px-4 py-2 rounded-xl bg-zinc-50 border border-zinc-200 min-w-[100px] shadow-sm">
+              <div className="text-base sm:text-xl font-black text-zinc-900 font-mono">
                 {m.value}
               </div>
-              <div className="text-[10px] sm:text-xs text-zinc-400 uppercase tracking-wider font-medium">
+              <div className="text-[10px] sm:text-xs text-zinc-500 uppercase tracking-wider font-semibold">
                 {m.label}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Dynamic CTAs (Monochrome) */}
+        {/* Dynamic CTAs - Filled Colorful Buttons */}
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <a
             href={current.ctaHref}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-white hover:bg-zinc-200 text-black font-extrabold text-xs sm:text-sm shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-blue-600/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer active:scale-95"
           >
             <CtaIcon className="w-4 h-4" />
             <span>{current.ctaText}</span>
@@ -177,9 +188,10 @@ export default function HeroSection({
           </a>
 
           <button
-            onClick={() => onOpenConnect(`Inquiry for ${current.tag}`)}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+            onClick={handleWhatsApp}
+            className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
           >
+            <MessageCircle className="w-4 h-4" />
             <span>Connect on WhatsApp</span>
           </button>
         </div>

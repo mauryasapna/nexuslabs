@@ -144,10 +144,44 @@ export function buildReviewTemplate(data: ReviewData): string {
   return lines.join("\n");
 }
 
+export type WhatsAppPayload =
+  | string
+  | {
+      source?: string;
+      details?: Record<string, string | number | undefined>;
+      message?: string;
+    };
+
 /**
- * Opens WhatsApp with the formatted template
+ * Opens WhatsApp with the formatted template or structured inquiry
  */
-export function sendToWhatsApp(messageText: string, phone: string = MAVERICK_WHATSAPP_NUMBER): void {
+export function sendToWhatsApp(
+  payload: WhatsAppPayload,
+  phone: string = MAVERICK_WHATSAPP_NUMBER
+): void {
+  let messageText = "";
+  if (typeof payload === "string") {
+    messageText = payload;
+  } else {
+    const lines = [
+      `🚀 *INQUIRY | ${payload.source || "MAVERICK TECH"}*`,
+      "━━━━━━━━━━━━━━━━━━━━",
+    ];
+    if (payload.details) {
+      Object.entries(payload.details).forEach(([key, value]) => {
+        if (value !== undefined && value !== "") {
+          lines.push(`• *${key}:* ${value}`);
+        }
+      });
+    }
+    if (payload.message) {
+      lines.push(`💬 *Message:* ${payload.message}`);
+    }
+    lines.push("━━━━━━━━━━━━━━━━━━━━");
+    lines.push("🌐 _Sent via Maverick Tech Official Website_");
+    messageText = lines.join("\n");
+  }
+
   const encoded = encodeURIComponent(messageText);
   const cleanPhone = phone.replace(/[^0-9]/g, "");
   const url = `https://wa.me/${cleanPhone}?text=${encoded}`;
