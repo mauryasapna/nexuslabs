@@ -24,16 +24,40 @@ export default function InternshipSection({
   onOpenConnect,
 }: InternshipSectionProps) {
   // Custom Desired Internship Form State
-  const [customDomain, setCustomDomain] = useState("");
+  const [customDomain, setCustomDomain] = useState("Full-Stack Web Development (Next.js / React)");
+  const [customDomainOther, setCustomDomainOther] = useState("");
   const [customName, setCustomName] = useState("");
   const [customContact, setCustomContact] = useState("");
   const [customCollege, setCustomCollege] = useState("");
   const [customYear, setCustomYear] = useState("3rd Year");
+  const [customYearOther, setCustomYearOther] = useState("");
   const [customMode, setCustomMode] = useState("100% Remote");
+  const [customModeOther, setCustomModeOther] = useState("");
   const [customDuration, setCustomDuration] = useState("2 Months");
+  const [customDurationOther, setCustomDurationOther] = useState("");
   const [customSkills, setCustomSkills] = useState("");
   const [isCustomSubmitting, setIsCustomSubmitting] = useState(false);
   const [customSubmitted, setCustomSubmitted] = useState(false);
+
+  const getEffectiveDomain = () =>
+    customDomain === "Other (Write your own domain)..."
+      ? (customDomainOther.trim() || "Custom Domain")
+      : customDomain;
+
+  const getEffectiveMode = () =>
+    customMode === "Other (Specify work mode)..."
+      ? (customModeOther.trim() || "Custom Mode")
+      : customMode;
+
+  const getEffectiveDuration = () =>
+    customDuration === "Other (Specify duration)..."
+      ? (customDurationOther.trim() || "Custom Duration")
+      : customDuration;
+
+  const getEffectiveYear = () =>
+    customYear === "Other (Specify academic year/status)..."
+      ? (customYearOther.trim() || "Custom Year")
+      : customYear;
 
   const handleSendWhatsAppDirect = () => {
     sendToWhatsApp({
@@ -41,21 +65,31 @@ export default function InternshipSection({
       details: {
         Name: customName || "Applicant",
         Contact: customContact || "Not provided",
-        Domain: customDomain || "Software Engineering",
+        Domain: getEffectiveDomain(),
         College: customCollege || "Engineering College",
-        Year: customYear,
-        Mode: customMode,
-        Duration: customDuration,
+        Year: getEffectiveYear(),
+        Mode: getEffectiveMode(),
+        Duration: getEffectiveDuration(),
       },
     });
   };
 
   const handleCustomSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customName.trim() || !customContact.trim() || !customDomain.trim()) {
-      toast.error("Please enter your name, contact, and desired domain");
+    if (!customName.trim()) {
+      toast.error("Please enter your name");
       return;
     }
+
+    if (customContact.length !== 10) {
+      toast.error("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    const effDomain = getEffectiveDomain();
+    const effMode = getEffectiveMode();
+    const effDuration = getEffectiveDuration();
+    const effYear = getEffectiveYear();
 
     setIsCustomSubmitting(true);
 
@@ -63,11 +97,11 @@ export default function InternshipSection({
       saveCustomInternship({
         name: customName,
         contact: customContact,
-        domain: customDomain,
+        domain: effDomain,
         college: customCollege,
-        year: customYear,
-        mode: customMode,
-        duration: customDuration,
+        year: effYear,
+        mode: effMode,
+        duration: effDuration,
         skills: customSkills,
       });
 
@@ -76,12 +110,12 @@ export default function InternshipSection({
         details: {
           Name: customName,
           Contact: customContact,
-          Domain: customDomain,
-          College: customCollege,
-          Year: customYear,
-          Mode: customMode,
-          Duration: customDuration,
-          Skills: customSkills || "Eager to learn",
+          Domain: effDomain,
+          College: customCollege || "Not specified",
+          Year: effYear,
+          Mode: effMode,
+          Duration: effDuration,
+          Skills: customSkills || "Eager to learn and contribute",
         },
       });
 
@@ -92,7 +126,7 @@ export default function InternshipSection({
       });
 
       setCustomSubmitted(true);
-      toast.success("Internship application formatted! WhatsApp chat opened.");
+      toast.success("Application sent! Direct WhatsApp chat opened.");
     } catch {
       toast.error("Submission failed. Please try again.");
     } finally {
@@ -142,21 +176,11 @@ export default function InternshipSection({
             </div>
             <div>
               <h4 className="text-base font-bold text-zinc-900 font-outfit">
-                Application Formatted for WhatsApp!
+                Application Sent Directly to WhatsApp!
               </h4>
               <p className="text-xs text-zinc-600 max-w-sm mx-auto leading-relaxed mt-1">
-                Thank you <strong>{customName}</strong>! Your application for <strong>&quot;{customDomain}&quot;</strong> was formatted and opened in WhatsApp.
+                Thank you <strong>{customName}</strong>! Your application for <strong>&quot;{getEffectiveDomain()}&quot;</strong> has opened directly in WhatsApp. Our mentorship team will review your details.
               </p>
-            </div>
-
-            {/* Application Summary Box */}
-            <div className="text-left bg-zinc-50 p-3.5 rounded-xl border border-zinc-200 text-xs font-mono text-zinc-800 space-y-1 max-w-md mx-auto">
-              <div className="text-zinc-500 font-bold uppercase text-[10px]">WhatsApp Template:</div>
-              <div><strong>Applicant:</strong> {customName}</div>
-              <div><strong>Contact:</strong> {customContact}</div>
-              <div><strong>Domain:</strong> {customDomain}</div>
-              <div><strong>College:</strong> {customCollege || "Not specified"} ({customYear})</div>
-              <div><strong>Mode:</strong> {customMode} ({customDuration})</div>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
@@ -178,20 +202,38 @@ export default function InternshipSection({
           </div>
         ) : (
           <form onSubmit={handleCustomSubmit} className="space-y-3.5">
-            {/* Row 1: Domain & Duration */}
+            {/* Row 1: Domain & Work Mode */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">
                   Desired Internship Domain *
                 </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. AI / ML, Fullstack Web, Python, Cloud..."
+                <select
                   value={customDomain}
                   onChange={(e) => setCustomDomain(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-indigo-600 focus:bg-white shadow-sm"
-                />
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-indigo-600 focus:bg-white font-medium shadow-sm"
+                >
+                  <option>Full-Stack Web Development (Next.js / React)</option>
+                  <option>AI & Machine Learning Engineering</option>
+                  <option>Python Backend & Cloud APIs</option>
+                  <option>Mobile App Development (Flutter / React Native)</option>
+                  <option>UI/UX & Frontend Engineering</option>
+                  <option>Cybersecurity & Cloud DevOps</option>
+                  <option>Other (Write your own domain)...</option>
+                </select>
+
+                {customDomain === "Other (Write your own domain)..." && (
+                  <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Type your custom internship domain..."
+                      value={customDomainOther}
+                      onChange={(e) => setCustomDomainOther(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-indigo-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm"
+                    />
+                  </div>
+                )}
               </div>
 
               <div>
@@ -206,6 +248,7 @@ export default function InternshipSection({
                   >
                     <option>100% Remote</option>
                     <option>Hybrid / Bangalore</option>
+                    <option>Other (Specify work mode)...</option>
                   </select>
                   <select
                     value={customDuration}
@@ -216,12 +259,39 @@ export default function InternshipSection({
                     <option>2 Months</option>
                     <option>3 Months</option>
                     <option>6 Months</option>
+                    <option>Other (Specify duration)...</option>
                   </select>
                 </div>
+
+                {/* Custom inputs if Other is selected */}
+                {(customMode === "Other (Specify work mode)..." || customDuration === "Other (Specify duration)...") && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 animate-in fade-in slide-in-from-top-1">
+                    {customMode === "Other (Specify work mode)..." && (
+                      <input
+                        type="text"
+                        required
+                        placeholder="Custom work mode..."
+                        value={customModeOther}
+                        onChange={(e) => setCustomModeOther(e.target.value)}
+                        className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-indigo-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm"
+                      />
+                    )}
+                    {customDuration === "Other (Specify duration)..." && (
+                      <input
+                        type="text"
+                        required
+                        placeholder="Custom duration..."
+                        value={customDurationOther}
+                        onChange={(e) => setCustomDurationOther(e.target.value)}
+                        className="w-full px-2.5 py-1.5 rounded-lg bg-white border border-indigo-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm"
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Row 2: Name & WhatsApp */}
+            {/* Row 2: Name & WhatsApp Number */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">
@@ -238,16 +308,24 @@ export default function InternshipSection({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  WhatsApp Contact Number *
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-zinc-700">
+                    WhatsApp Number *
+                  </label>
+                  <span className={`text-[10px] font-mono font-bold ${customContact.length === 10 ? 'text-emerald-600' : 'text-zinc-500'}`}>
+                    {customContact.length}/10 digits
+                  </span>
+                </div>
                 <input
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                  pattern="[0-9]{10}"
                   required
-                  placeholder="+91 98765 43210"
+                  placeholder="10-digit mobile number"
                   value={customContact}
-                  onChange={(e) => setCustomContact(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-indigo-600 focus:bg-white shadow-sm"
+                  onChange={(e) => setCustomContact(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-indigo-600 focus:bg-white shadow-sm font-mono tracking-wider"
                 />
               </div>
             </div>
@@ -280,7 +358,21 @@ export default function InternshipSection({
                   <option>2nd Year</option>
                   <option>3rd Year</option>
                   <option>Final Year / Graduate</option>
+                  <option>Other (Specify academic year/status)...</option>
                 </select>
+
+                {customYear === "Other (Specify academic year/status)..." && (
+                  <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Specify your academic year or status..."
+                      value={customYearOther}
+                      onChange={(e) => setCustomYearOther(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-indigo-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 shadow-sm"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -309,7 +401,7 @@ export default function InternshipSection({
                 className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
               >
                 {isCustomSubmitting ? (
-                  "Formatting..."
+                  "Sending..."
                 ) : (
                   <>
                     <MessageCircle className="w-3.5 h-3.5" />

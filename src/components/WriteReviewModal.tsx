@@ -25,6 +25,7 @@ export default function WriteReviewModal({
   const [name, setName] = useState("");
   const [collegeOrCompany, setCollegeOrCompany] = useState("");
   const [service, setService] = useState("College Projects (1st-Final Yr)");
+  const [customService, setCustomService] = useState("");
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
   const [title, setTitle] = useState("");
@@ -40,13 +41,19 @@ export default function WriteReviewModal({
     "Learn Web Dev Easily with Me",
     "Google Rank / SEO Digital Marketing",
     "Student Internship & Certificate",
+    "Other (Write your own service)...",
   ];
+
+  const getEffectiveService = () =>
+    service === "Other (Write your own service)..."
+      ? (customService.trim() || "Custom Service")
+      : service;
 
   const handleSendOnWhatsApp = () => {
     const formatted = buildReviewTemplate({
       name,
       collegeOrCompany,
-      service,
+      service: getEffectiveService(),
       rating,
       title,
       comment,
@@ -61,13 +68,20 @@ export default function WriteReviewModal({
       return;
     }
 
+    if (service === "Other (Write your own service)..." && !customService.trim()) {
+      alert("Please type the custom service name");
+      return;
+    }
+
     setIsSubmitting(true);
+
+    const finalService = getEffectiveService();
 
     const newReview: StoredReview = {
       id: "rev_" + Date.now(),
       name: name.trim(),
       collegeOrCompany: collegeOrCompany.trim() || "Engineering Student",
-      service,
+      service: finalService,
       rating,
       title: title.trim(),
       comment: comment.trim(),
@@ -195,6 +209,19 @@ export default function WriteReviewModal({
                   </option>
                 ))}
               </select>
+
+              {service === "Other (Write your own service)..." && (
+                <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Type the service you received from Maverick Tech..."
+                    value={customService}
+                    onChange={(e) => setCustomService(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-blue-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Client Name & College/Company */}

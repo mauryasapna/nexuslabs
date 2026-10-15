@@ -25,10 +25,15 @@ export default function CollegeProjectsSection({
 }: CollegeProjectsSectionProps) {
   // Submission Form State
   const [projectTitle, setProjectTitle] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [studentContact, setStudentContact] = useState("");
   const [domain, setDomain] = useState("AI & Machine Learning");
-  const [degree, setDegree] = useState("B.Tech / B.E (Final Year)");
-  const [details, setDetails] = useState("");
+  const [customDomain, setCustomDomain] = useState("");
+  const [degree, setDegree] = useState("B.Tech / B.E (Final Year Major Project)");
+  const [customDegree, setCustomDegree] = useState("");
   const [deadline, setDeadline] = useState("2-3 Weeks");
+  const [customDeadline, setCustomDeadline] = useState("");
+  const [details, setDetails] = useState("");
   const [selectedAddons, setSelectedAddons] = useState<string[]>([
     "Full Working Code & Setup Guide",
     "Database Schema & Architecture Diagrams",
@@ -36,6 +41,15 @@ export default function CollegeProjectsSection({
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const getEffectiveDomain = () =>
+    domain === "Other (Write your own domain)..." ? (customDomain.trim() || "Custom Domain") : domain;
+
+  const getEffectiveDegree = () =>
+    degree === "Other (Write your own course/year)..." ? (customDegree.trim() || "Custom Course") : degree;
+
+  const getEffectiveDeadline = () =>
+    deadline === "Other (Specify custom deadline)..." ? (customDeadline.trim() || "Custom Deadline") : deadline;
 
   const addonsList = [
     "Full Working Code & Setup Guide",
@@ -61,15 +75,31 @@ export default function CollegeProjectsSection({
       return;
     }
 
+    if (!studentName.trim()) {
+      toast.error("Please enter your name.");
+      return;
+    }
+
+    if (studentContact.length !== 10) {
+      toast.error("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    const effDomain = getEffectiveDomain();
+    const effDegree = getEffectiveDegree();
+    const effDeadline = getEffectiveDeadline();
+
     setIsSubmitting(true);
 
     try {
       saveProjectOrder({
         projectTitle,
-        domain,
-        degree,
+        studentName,
+        contact: studentContact,
+        domain: effDomain,
+        degree: effDegree,
         details,
-        deadline,
+        deadline: effDeadline,
         addons: selectedAddons,
       });
 
@@ -77,11 +107,13 @@ export default function CollegeProjectsSection({
         source: "College Projects Form",
         details: {
           Project: projectTitle,
-          Domain: domain,
-          Degree: degree,
-          Timeline: deadline,
-          Addons: selectedAddons.join(", "),
-          CustomNotes: details || "Standard full implementation requested",
+          Student: studentName,
+          Contact: studentContact,
+          Domain: effDomain,
+          Degree: effDegree,
+          Timeline: effDeadline,
+          Deliverables: selectedAddons.join(", "),
+          Message: details || "Standard full implementation requested",
         },
       });
 
@@ -92,7 +124,7 @@ export default function CollegeProjectsSection({
       });
 
       setSubmitted(true);
-      toast.success("Order request prepared! Direct WhatsApp opened.");
+      toast.success("Order request sent! Direct WhatsApp opened.");
     } catch {
       toast.error("Submission failed. Please try again.");
     } finally {
@@ -105,8 +137,10 @@ export default function CollegeProjectsSection({
       source: "College Projects Direct Button",
       details: {
         Project: projectTitle || "Custom College Project",
-        Domain: domain,
-        Degree: degree,
+        Student: studentName || "Student",
+        Contact: studentContact || "Not provided",
+        Domain: getEffectiveDomain(),
+        Degree: getEffectiveDegree(),
       },
     });
   };
@@ -192,20 +226,11 @@ export default function CollegeProjectsSection({
             </div>
             <div>
               <h4 className="text-base font-bold text-zinc-900 font-outfit">
-                Project Template Created!
+                Project Order Sent to WhatsApp!
               </h4>
               <p className="text-xs text-zinc-600 max-w-sm mx-auto leading-relaxed mt-1">
-                We received your request for <strong>&quot;{projectTitle}&quot;</strong> and formatted your WhatsApp template.
+                Thank you <strong>{studentName}</strong>! Your order request for <strong>&quot;{projectTitle}&quot;</strong> has opened directly in WhatsApp. Our development team will review your requirements.
               </p>
-            </div>
-
-            {/* Template Details Card */}
-            <div className="text-left bg-zinc-50 p-3.5 rounded-xl border border-zinc-200 text-xs font-mono text-zinc-800 space-y-1 max-w-md mx-auto">
-              <div className="text-zinc-500 font-bold uppercase text-[10px]">WhatsApp Template:</div>
-              <div><strong>Project:</strong> {projectTitle}</div>
-              <div><strong>Degree:</strong> {degree}</div>
-              <div><strong>Domain:</strong> {domain}</div>
-              <div><strong>Timeline:</strong> {deadline}</div>
             </div>
 
             <div className="pt-2 flex flex-wrap justify-center gap-2">
@@ -230,42 +255,94 @@ export default function CollegeProjectsSection({
           </div>
         ) : (
           <form onSubmit={handleSubmitIdea} className="space-y-3.5">
-            {/* Row 1: Title & Domain */}
+            {/* Student Name & 10-digit Mobile Number */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Project Title / Problem Statement *
+                  Your Full Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. AI Lung Disease Detection System"
-                  value={projectTitle}
-                  onChange={(e) => setProjectTitle(e.target.value)}
+                  placeholder="e.g. Priyanshu Sharma"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  Technology Domain
-                </label>
-                <select
-                  value={domain}
-                  onChange={(e) => setDomain(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-medium shadow-sm"
-                >
-                  <option>AI & Machine Learning</option>
-                  <option>Full-Stack Web (MERN / Next.js)</option>
-                  <option>Mobile App (Flutter / React Native)</option>
-                  <option>IoT, Robotics & Arduino/ESP32</option>
-                  <option>Blockchain & Smart Contracts</option>
-                  <option>Cloud Computing & DevOps</option>
-                </select>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-zinc-700">
+                    WhatsApp Number *
+                  </label>
+                  <span className={`text-[10px] font-mono font-bold ${studentContact.length === 10 ? 'text-emerald-600' : 'text-zinc-500'}`}>
+                    {studentContact.length}/10 digits
+                  </span>
+                </div>
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                  pattern="[0-9]{10}"
+                  required
+                  placeholder="10-digit mobile number"
+                  value={studentContact}
+                  onChange={(e) => setStudentContact(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm font-mono tracking-wider"
+                />
               </div>
             </div>
 
-            {/* Row 2: Degree Year & Timeline */}
+            {/* Project Title */}
+            <div>
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
+                Project Title / Problem Statement *
+              </label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. AI Lung Disease Detection System"
+                value={projectTitle}
+                onChange={(e) => setProjectTitle(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-all shadow-sm"
+              />
+            </div>
+
+            {/* Technology Domain Dropdown with Custom Write Option */}
+            <div>
+              <label className="block text-xs font-bold text-zinc-700 mb-1">
+                Technology Domain
+              </label>
+              <select
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-medium shadow-sm"
+              >
+                <option>AI & Machine Learning</option>
+                <option>Full-Stack Web (MERN / Next.js)</option>
+                <option>Mobile App (Flutter / React Native)</option>
+                <option>IoT, Robotics & Arduino/ESP32</option>
+                <option>Blockchain & Smart Contracts</option>
+                <option>Cloud Computing & DevOps</option>
+                <option>Other (Write your own domain)...</option>
+              </select>
+
+              {domain === "Other (Write your own domain)..." && (
+                <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Type your custom technology domain..."
+                    value={customDomain}
+                    onChange={(e) => setCustomDomain(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-blue-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Row: Degree Year & Timeline */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-zinc-700 mb-1">
@@ -282,7 +359,21 @@ export default function CollegeProjectsSection({
                   <option>B.Tech / B.E (Final Year Major Project)</option>
                   <option>MCA / M.Tech (Advanced Research)</option>
                   <option>Diploma / Polytechnic</option>
+                  <option>Other (Write your own course/year)...</option>
                 </select>
+
+                {degree === "Other (Write your own course/year)..." && (
+                  <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Type your course / academic year..."
+                      value={customDegree}
+                      onChange={(e) => setCustomDegree(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-blue-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                    />
+                  </div>
+                )}
               </div>
 
               <div>
@@ -298,7 +389,21 @@ export default function CollegeProjectsSection({
                   <option>1 Week</option>
                   <option>2-3 Weeks</option>
                   <option>Flexible (Next Month)</option>
+                  <option>Other (Specify custom deadline)...</option>
                 </select>
+
+                {deadline === "Other (Specify custom deadline)..." && (
+                  <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Specify your exact deadline..."
+                      value={customDeadline}
+                      onChange={(e) => setCustomDeadline(e.target.value)}
+                      className="w-full px-3 py-2 rounded-xl bg-white border border-blue-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -355,7 +460,7 @@ export default function CollegeProjectsSection({
                 className="w-full sm:flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>{isSubmitting ? "Generating Template..." : "Order Project via WhatsApp"}</span>
+                <span>{isSubmitting ? "Sending..." : "Order Project via WhatsApp"}</span>
               </button>
 
               <button

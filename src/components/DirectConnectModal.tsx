@@ -28,6 +28,7 @@ export default function DirectConnectModal({
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [selectedTopic, setSelectedTopic] = useState(initialTopic);
+  const [customTopic, setCustomTopic] = useState("");
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -40,13 +41,22 @@ export default function DirectConnectModal({
     "Learn How to Build a Website Easily with Me",
     "Google Rank with Digital Marketing",
     "Find Internship with Me",
+    "Other (Write your own requirement)...",
   ];
 
+  const getEffectiveTopic = () => {
+    if (selectedTopic === "Other (Write your own requirement)...") {
+      return customTopic.trim() || "Custom Inquiry";
+    }
+    return selectedTopic;
+  };
+
   const handleOpenWhatsAppDirectly = () => {
+    const finalTopic = getEffectiveTopic();
     const formattedText = buildDirectInquiryTemplate({
       name,
       contact,
-      topic: selectedTopic,
+      topic: finalTopic,
       message,
     });
     sendToWhatsApp(formattedText);
@@ -54,8 +64,19 @@ export default function DirectConnectModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !contact.trim()) {
-      toast.error("Please enter your name and phone number");
+    if (!name.trim()) {
+      toast.error("Please enter your name");
+      return;
+    }
+
+    if (contact.length !== 10) {
+      toast.error("Please enter a valid 10-digit mobile number");
+      return;
+    }
+
+    const finalTopic = getEffectiveTopic();
+    if (selectedTopic === "Other (Write your own requirement)..." && !customTopic.trim()) {
+      toast.error("Please type your custom requirement");
       return;
     }
 
@@ -65,7 +86,7 @@ export default function DirectConnectModal({
       saveDirectInquiry({
         name,
         contact,
-        topic: selectedTopic,
+        topic: finalTopic,
         message,
       });
 
@@ -74,7 +95,7 @@ export default function DirectConnectModal({
         details: {
           Name: name,
           Contact: contact,
-          Requirement: selectedTopic,
+          Requirement: finalTopic,
           Message: message || "Immediate callback / WhatsApp discussion requested",
         },
       });
@@ -86,7 +107,7 @@ export default function DirectConnectModal({
       });
 
       setSent(true);
-      toast.success("WhatsApp template prepared and opened!");
+      toast.success("Direct WhatsApp chat opened!");
     } catch {
       toast.error("Could not format WhatsApp link. Please call directly.");
     } finally {
@@ -117,26 +138,17 @@ export default function DirectConnectModal({
         </div>
 
         {sent ? (
-          <div className="py-5 text-center space-y-3 animate-in fade-in">
+          <div className="py-6 text-center space-y-3 animate-in fade-in">
             <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto shadow-md">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="text-sm sm:text-base font-bold text-zinc-900 font-outfit">
-                Inquiry Template Generated!
+              <h4 className="text-base font-bold text-zinc-900 font-outfit">
+                Inquiry Sent Directly to WhatsApp!
               </h4>
               <p className="text-xs text-zinc-600 max-w-xs mx-auto leading-relaxed mt-1">
-                Thank you <strong>{name}</strong>! Your details were formatted and opened in WhatsApp.
+                Thank you <strong>{name}</strong>! Your inquiry for <strong>&quot;{getEffectiveTopic()}&quot;</strong> has opened directly in WhatsApp. Our team is ready to connect with you.
               </p>
-            </div>
-
-            {/* Formatted Template Preview */}
-            <div className="text-left bg-zinc-50 p-3 rounded-xl border border-zinc-200 text-xs font-mono text-zinc-800 space-y-1">
-              <div className="text-zinc-500 font-bold uppercase text-[9px]">WhatsApp Template Sent:</div>
-              <div><strong>Name:</strong> {name}</div>
-              <div><strong>Contact:</strong> {contact}</div>
-              <div><strong>Topic:</strong> {selectedTopic}</div>
-              {message && <div><strong>Message:</strong> {message}</div>}
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
@@ -176,6 +188,20 @@ export default function DirectConnectModal({
                   </option>
                 ))}
               </select>
+
+              {/* Custom Write Option Input */}
+              {selectedTopic === "Other (Write your own requirement)..." && (
+                <div className="mt-2 animate-in fade-in slide-in-from-top-1">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Type your custom requirement or topic..."
+                    value={customTopic}
+                    onChange={(e) => setCustomTopic(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-blue-400 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 shadow-sm"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -186,7 +212,7 @@ export default function DirectConnectModal({
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Rohan"
+                  placeholder="e.g. Rohan Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm"
@@ -194,16 +220,24 @@ export default function DirectConnectModal({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-700 mb-1">
-                  WhatsApp / Phone *
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-zinc-700">
+                    WhatsApp Number *
+                  </label>
+                  <span className={`text-[10px] font-mono font-bold ${contact.length === 10 ? 'text-emerald-600' : 'text-zinc-500'}`}>
+                    {contact.length}/10 digits
+                  </span>
+                </div>
                 <input
-                  type="text"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                  pattern="[0-9]{10}"
                   required
-                  placeholder="e.g. +91 9142479986"
+                  placeholder="10-digit number"
                   value={contact}
-                  onChange={(e) => setContact(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm"
+                  onChange={(e) => setContact(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                  className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-300 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-blue-600 focus:bg-white shadow-sm font-mono tracking-wider"
                 />
               </div>
             </div>
@@ -222,7 +256,7 @@ export default function DirectConnectModal({
             </div>
 
             <p className="text-[11px] text-zinc-500 leading-tight">
-              ⚡ Submitting formats your details into an instant template and opens WhatsApp directly with our team.
+              ⚡ Submitting opens WhatsApp directly with your exact inquiry details filled.
             </p>
 
             <div className="flex gap-2 pt-2 border-t border-zinc-200">
@@ -239,7 +273,7 @@ export default function DirectConnectModal({
                 className="flex-2 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-500/25 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
               >
                 {isSending ? (
-                  "Formatting..."
+                  "Sending..."
                 ) : (
                   <>
                     <MessageCircle className="w-3.5 h-3.5" />

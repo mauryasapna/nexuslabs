@@ -119,14 +119,20 @@ export default function Navbar({
           </button>
         </nav>
 
-        {/* Right: Filled Colorful CTA Button */}
+        {/* Right: Modern Pill-Shaped WhatsApp CTA Button */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => onOpenConnect("Header Direct Connect")}
-            className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+            className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 border border-emerald-400/40 shadow-md shadow-emerald-600/25 transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer active:scale-95 shrink-0"
+            title="Chat directly on WhatsApp"
           >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>WhatsApp Connect</span>
+            <div className="relative flex items-center justify-center">
+              <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-200 animate-ping" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-100" />
+            </div>
+            <span className="tracking-tight font-black">WhatsApp</span>
+            <span className="hidden sm:inline font-semibold text-emerald-100">Contact</span>
           </button>
         </div>
       </div>
