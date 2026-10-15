@@ -124,17 +124,16 @@ export default function AIProjectCopilotStudio({ onOpenConnect }: AIProjectCopil
   };
 
   const handleWhatsAppOrder = () => {
-    const template = [
-      `*MAVERICK TECH — AI PROJECT INQUIRY*`,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      `*Selected Project:* ${projectOutput.title}`,
-      `*Category:* ${projectOutput.category}`,
-      `*Expected Timeline:* ${projectOutput.deliveryTime}`,
-      `*Deliverables Needed:* Complete Source Code + IEEE Report + PPT + 1-on-1 Viva Prep`,
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-      `Hello Maverick Tech Team! I generated this project architecture on your platform and would like to get the 100% working source code and viva coaching session. Please share pricing and kickoff timeline.`,
-    ].join("\n");
-    sendToWhatsApp(template);
+    sendToWhatsApp({
+      source: "AI Project Inquiry",
+      details: {
+        "Selected Project": projectOutput.title,
+        Category: projectOutput.category,
+        "Expected Timeline": projectOutput.deliveryTime,
+        "Deliverables Needed": "Complete Source Code + IEEE Report + PPT + 1-on-1 Viva Prep",
+      },
+      message: "Hello Maverick Tech Team! I would like to get the 100% working source code and viva coaching session for this project.",
+    });
   };
 
   return (

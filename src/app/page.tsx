@@ -6,7 +6,6 @@ import CinematicIntroFlow from "@/components/CinematicIntroFlow";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import HomeTopSlidebar from "@/components/HomeTopSlidebar";
-import AboutMeSection from "@/components/AboutMeSection";
 import BusinessWebsiteSection from "@/components/BusinessWebsiteSection";
 import CollegeProjectsSection from "@/components/CollegeProjectsSection";
 import InternshipSection from "@/components/InternshipSection";
@@ -152,9 +151,6 @@ export default function HomePage() {
           onOpenConnect={handleOpenConnect}
           onReplayIntro={handleReplayIntro}
         />
-
-        {/* Meet Sapna: IT Developer @ ELEKTRO LABS, CGPA 9.1 & Mailflow Showcase */}
-        <AboutMeSection onOpenConnect={handleOpenConnect} />
 
         {/* 1. College Projects (1st, 2nd, 3rd, Final Year) */}
         <CollegeProjectsSection onOpenConnect={handleOpenConnect} />
